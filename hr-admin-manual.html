@@ -1,0 +1,2130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SparkX — HR Administrator User Manual</title>
+  <link rel="stylesheet" href="css/style.css?v=20261120-2">
+  <link rel="icon" href="assets/screenshots/source/sign-in.png" type="image/png">
+  <style>
+    /* Ensure sticky sidebar works reliably (overflow-x: hidden on html/body breaks position: sticky) */
+    html, body {
+      overflow-x: clip !important;
+    }
+    /* Match Employee & Manager User Manual Sidebar & Layout System */
+    #hrAdminManualView .layout-container {
+      grid-template-columns: 340px minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    #hrAdminManualView .sidebar-sticky {
+      position: sticky;
+      top: calc(var(--header-height, 64px) + 20px);
+      align-self: start;
+      max-height: calc(100vh - var(--header-height, 64px) - 36px);
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-right: 4px;
+      scrollbar-width: thin;
+    }
+    #hrAdminManualView .stepper-card {
+      padding: 20px 16px;
+      overflow: visible;
+    }
+    #hrAdminManualView .emn-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+    }
+    #hrAdminManualView .emn-group {
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      background: #ffffff;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+      transition: all 0.2s ease;
+    }
+    #hrAdminManualView .emn-group.is-open {
+      border-color: #818cf8;
+      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.08);
+    }
+    #hrAdminManualView .emn-head {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      background: none;
+      border: 0;
+      cursor: pointer;
+      text-align: left;
+      font: inherit;
+      box-sizing: border-box;
+      border-radius: 11px;
+      transition: background 0.15s ease;
+    }
+    #hrAdminManualView .emn-head:hover {
+      background: #f8fafc;
+    }
+    #hrAdminManualView .emn-num {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11.5px;
+      font-weight: 800;
+      background: #4f46e5;
+      color: #ffffff;
+    }
+    #hrAdminManualView .emn-title {
+      flex: 1;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #1e293b;
+      line-height: 1.35;
+      white-space: normal;
+      word-break: break-word;
+    }
+    #hrAdminManualView .emn-chev {
+      flex-shrink: 0;
+      color: #94a3b8;
+      transition: transform 0.2s ease;
+    }
+    #hrAdminManualView .emn-group.is-open .emn-chev {
+      transform: rotate(180deg);
+    }
+    #hrAdminManualView .emn-sub {
+      display: none;
+      flex-direction: column;
+      padding: 4px 8px 10px 16px;
+      gap: 3px;
+      border-top: 1px solid #f1f5f9;
+    }
+    #hrAdminManualView .emn-group.is-open .emn-sub {
+      display: flex;
+    }
+    #hrAdminManualView .emn-sub a {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      color: #475569;
+      text-decoration: none;
+      line-height: 1.35;
+      white-space: normal;
+      word-break: break-word;
+      border-left: 2px solid transparent;
+      transition: all 0.15s ease;
+    }
+    #hrAdminManualView .emn-sub a:hover {
+      background: #f1f5f9;
+      color: #1e293b;
+    }
+    #hrAdminManualView .emn-sub a.is-active {
+      background: #eef2ff;
+      color: #4338ca;
+      font-weight: 700;
+      border-left-color: #4f46e5;
+    }
+    #hrAdminManualView .emn-divider {
+      font-size: 10.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #64748b;
+      padding: 8px 4px 2px 4px;
+    }
+    #hrAdminManualView .onboarding-section {
+      scroll-margin-top: 85px;
+    }
+    #hrAdminManualView .g-step {
+      scroll-margin-top: 90px;
+    }
+    @media (max-width: 1024px) {
+      #hrAdminManualView .layout-container {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+      }
+      #hrAdminManualView .sidebar-sticky {
+        position: fixed !important;
+        top: var(--header-height, 64px) !important;
+        left: 0 !important;
+        bottom: 0 !important;
+        width: min(330px, 86vw) !important;
+        max-height: calc(100vh - var(--header-height, 64px)) !important;
+        z-index: 1200 !important;
+        background: #ffffff !important;
+        padding: 12px !important;
+        box-shadow: 8px 0 32px rgba(15, 23, 42, 0.22) !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        transform: translateX(-105%) !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
+      body.mobile-menu-open #hrAdminManualView .sidebar-sticky {
+        transform: translateX(0) !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient background glow elements -->
+  <div class="bg-ambient-orb orb-1"></div>
+  <div class="bg-ambient-orb orb-2"></div>
+
+  <!-- Top Sticky Navigation Bar -->
+  <header class="top-header">
+    <div class="header-container">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <a href="index.html" class="brand-wrapper" title="Go to Documentation Portal Home">
+          <span class="brand-logo">spark<span class="logo-x">X</span></span>
+          <span class="brand-divider"></span>
+          <span class="brand-badge">
+            <span class="pulse-dot"></span>
+            <span>HR Administrator Manual</span>
+          </span>
+        </a>
+      </div>
+
+      <div class="header-controls">
+        <div class="progress-pill">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          <span id="stepCounterText">Module 1 of 14</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reading Progress Track -->
+    <div class="reading-progress-track">
+      <div id="readingProgressBar" class="reading-progress-fill"></div>
+    </div>
+  </header>
+
+  <div id="hrAdminManualView" class="guide-view" style="display: block;">
+    <!-- Floating Button to Re-open Sidebar if Closed -->
+    <button type="button" class="floating-sidebar-btn" id="floatingSidebarBtnHr" aria-label="Open sidebar navigation" title="Show sidebar navigation">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      <span>Show Menu</span>
+    </button>
+
+    <!-- Main Layout Container -->
+    <div class="layout-container">
+
+      <!-- Left Sticky Sidebar Stepper -->
+      <aside class="sidebar-sticky" id="sidebarStickyHr">
+        <div class="stepper-card">
+          <a href="index.html" class="sidebar-portal-btn" onclick="if (window.history.length > 1 && document.referrer) { event.preventDefault(); history.back(); }" title="Back to previous page">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            <span>Back</span>
+          </a>
+          <div class="stepper-header">
+            <div class="stepper-title">HR Administrator Manual</div>
+            <button type="button" class="sidebar-collapse-toggle" id="sidebarCollapseToggleHr" aria-label="Collapse sidebar navigation" title="Collapse sidebar navigation">
+              <svg class="sidebar-toggle-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="9" y1="3" x2="9" y2="21"></line>
+                <path d="M15 10l-2 2 2 2"></path>
+              </svg>
+            </button>
+          </div>
+
+          <nav class="emn-nav" id="hrNav" aria-label="HR Administrator Manual Navigation">
+
+            <div class="emn-divider">Getting Started</div>
+
+            <div class="emn-group is-ready is-open" data-target="#hr-login">
+              <button type="button" class="emn-head" aria-expanded="true">
+                <span class="emn-num">1</span>
+                <span class="emn-title">1. Sign-In &amp; Authentication</span>
+                <svg class="emn-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="emn-sub">
+                <a href="#hr-step-01">01. HR Admin Sign-In Page</a>
+              </div>
+            </div>
+
+            <div class="emn-group is-ready" data-target="#hr-dashboard">
+              <button type="button" class="emn-head" aria-expanded="false">
+                <span class="emn-num">2</span>
+                <span class="emn-title">2. Dashboard &amp; Sidebar</span>
+                <svg class="emn-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="emn-sub">
+                <a href="#hr-step-02">02. Home Dashboard &amp; Metrics</a>
+                <a href="#hr-step-03">03. Sidebar HR &amp; Management Menus</a>
+                <a href="#hr-step-04">04. Priority Tasks &amp; Team on Leave</a>
+              </div>
+            </div>
+
+            <div class="emn-divider">HR Sidebar Modules</div>
+
+            <div class="emn-group is-ready" data-target="#hr-profile-requests">
+              <button type="button" class="emn-head" aria-expanded="false">
+                <span class="emn-num">3</span>
+                <span class="emn-title">3. Profile Requests</span>
+                <svg class="emn-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="emn-sub">
+                <a href="#hr-step-05">05. Profile Change Requests Queue</a>
+                <a href="#hr-step-06">06. Approved Request Details</a>
+                <a href="#hr-step-07">07. Rejected Request Details</a>
+              </div>
+            </div>
+
+            <div class="emn-group is-ready" data-target="#hr-pending-approvals">
+              <button type="button" class="emn-head" aria-expanded="false">
+                <span class="emn-num">4</span>
+                <span class="emn-title">4. Pending Approvals</span>
+                <svg class="emn-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="emn-sub">
+                <a href="#hr-step-08">08. Approvals Triage &amp; Filters</a>
+                <a href="#hr-step-09">09. Expanded Approval Steps</a>
+                <a href="#hr-step-10">10. Add Alternate Approver Modal</a>
+              </div>
+            </div>
+
+            <div class="emn-group is-ready" data-target="#hr-org-chart">
+              <button type="button" class="emn-head" aria-expanded="false">
+                <span class="emn-num">5</span>
+                <span class="emn-title">5. Organization Chart</span>
+                <svg class="emn-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="emn-sub">
+                <a href="#hr-step-11">11. Company Selector Panel</a>
+                <a href="#hr-step-12">12. Hierarchy &amp; Health Metrics</a>
+                <a href="#hr-step-13">13. Zoom, Fit &amp; Canvas Controls</a>
+                <a href="#hr-step-14">14. Fullscreen Chart Mode</a>
+              </div>
+            </div>
+
+            <div class="emn-group is-ready" data-target="#hr-onboarding">
+              <button type="button" class="emn-head" aria-expanded="false">
+                <span class="emn-num">6</span>
+                <span class="emn-title">6. Onboarding Admin</span>
+                <svg class="emn-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="emn-sub">
+                <a href="#hr-step-15">15. Onboarding Enrollments Table</a>
+                <a href="#hr-step-16">16. Enroll Employee Modal</a>
+                <a href="#hr-step-17">17. Review Progress Modal</a>
+              </div>
+            </div>
+
+            <div class="emn-group is-ready" data-target="#hr-offboarding">
+              <button type="button" class="emn-head" aria-expanded="false">
+                <span class="emn-num">7</span>
+                <span class="emn-title">7. Offboarding Admin</span>
+                <svg class="emn-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="emn-sub">
+                <a href="#hr-step-18">18. Offboarding Queue &amp; Filters</a>
+              </div>
+            </div>
+
+            <div class="emn-group is-ready" data-target="#hr-documents">
+              <button type="button" class="emn-head" aria-expanded="false">
+                <span class="emn-num">8</span>
+                <span class="emn-title">8. Distribute Documents</span>
+                <svg class="emn-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="emn-sub">
+                <a href="#hr-step-19">19. Active Documents Table</a>
+                <a href="#hr-step-20">20. Distribute Document Modal</a>
+                <a href="#hr-step-21">21. Target Scope Options</a>
+                <a href="#hr-step-22">22. Dynamic Company Selector</a>
+                <a href="#hr-step-23">23. Archived &amp; Restore Documents</a>
+              </div>
+            </div>
+
+            <div class="emn-divider">Management Sidebar Modules</div>
+
+            <div class="emn-group is-ready" data-target="#mgmt-announcements">
+              <button type="button" class="emn-head" aria-expanded="false">
+                <span class="emn-num">9</span>
+                <span class="emn-title">9. Announcements</span>
+                <svg class="emn-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="emn-sub">
+                <a href="#hr-step-24">24. Announcements List</a>
+                <a href="#hr-step-25">25. New Announcement Modal</a>
+              </div>
+            </div>
+
+            <div class="emn-group is-ready" data-target="#mgmt-finance">
+              <button type="button" class="emn-head" aria-expanded="false">
+                <span class="emn-num">10</span>
+                <span class="emn-title">10. Finance Operations</span>
+                <svg class="emn-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="emn-sub">
+                <a href="#hr-step-26">26. Company Selection</a>
+                <a href="#hr-step-27">27. Reimbursement: Awaiting Payment</a>
+                <a href="#hr-step-28">28. Reimbursement: Paid &amp; SAP Export</a>
+                <a href="#hr-step-29">29. Corporate Cards Reconciliation</a>
+              </div>
+            </div>
+
+            <div class="emn-group is-ready" data-target="#mgmt-reports">
+              <button type="button" class="emn-head" aria-expanded="false">
+                <span class="emn-num">11</span>
+                <span class="emn-title">11. Reports &amp; Analytics</span>
+                <svg class="emn-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="emn-sub">
+                <a href="#hr-step-30">30. Report Builder Form</a>
+                <a href="#hr-step-31">31. Generated Report &amp; Exports</a>
+                <a href="#hr-step-32">32. App Analytics Tab</a>
+              </div>
+            </div>
+
+            <div class="emn-group is-ready" data-target="#mgmt-config">
+              <button type="button" class="emn-head" aria-expanded="false">
+                <span class="emn-num">12</span>
+                <span class="emn-title">12. Configuration</span>
+                <svg class="emn-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="emn-sub">
+                <a href="#hr-step-33">33. Global Configuration Cards</a>
+                <a href="#hr-step-34">34. Module Configuration Cards</a>
+                <a href="#hr-step-35">35. Setup Health Diagnostics</a>
+                <a href="#hr-step-36">36. Workflow Configuration</a>
+              </div>
+            </div>
+
+            <div class="emn-group is-ready" data-target="#mgmt-master-data">
+              <button type="button" class="emn-head" aria-expanded="false">
+                <span class="emn-num">13</span>
+                <span class="emn-title">13. Master Data</span>
+                <svg class="emn-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="emn-sub">
+                <a href="#hr-step-37">37. Master Data Lookup Hub (Top)</a>
+                <a href="#hr-step-38">38. Master Data Lookup Hub (Bottom)</a>
+                <a href="#hr-step-39">39. Employees Management Directory</a>
+                <a href="#hr-step-40">40. Add Employee 4-Step Wizard</a>
+              </div>
+            </div>
+
+            <div class="emn-group is-ready" data-target="#mgmt-audit-trail">
+              <button type="button" class="emn-head" aria-expanded="false">
+                <span class="emn-num">14</span>
+                <span class="emn-title">14. Audit Trail</span>
+                <svg class="emn-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="emn-sub">
+                <a href="#hr-step-41">41. Immutable Audit Trail Filters</a>
+                <a href="#hr-step-42">42. Expanded Diff &amp; Raw JSON</a>
+              </div>
+            </div>
+
+          </nav>
+
+          <!-- Sidebar Assistance Widget -->
+          <div class="step-help-box" style="margin-top: 24px; padding: 14px 16px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px;">
+            <div class="step-help-header" style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+              <strong style="font-size: 13px; color: #1e293b;">Governance Tip</strong>
+            </div>
+            <p class="step-help-desc" style="font-size: 12px; color: #64748b; line-height: 1.45; margin: 0;">
+              Use <strong>Configuration &rarr; Setup Health</strong> to catch missing approval routes or unassigned supervisors before rolling out new company policies.
+            </p>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Right Main Content Area -->
+      <main class="content-area">
+
+        <!-- 01. Sign-In & Authentication -->
+        <section id="hr-login" class="onboarding-section">
+          <div class="section-header-block">
+            <span class="section-pill-tag" style="background: #f3e8ff; color: #7e22ce; font-weight: 700;">Governance &amp; System Admin &bull; HR Admin</span>
+            <h1 class="section-main-title">SparkX HR Administrator Manual</h1>
+            <p class="section-lead-text">
+              Complete visual reference for HR Administrators in SparkX &mdash; covering sign-in, the HR Admin Dashboard, all six <strong>HR</strong> sidebar modules, and all six <strong>Management</strong> governance modules.
+            </p>
+          </div>
+
+          <div class="hero-welcome-card" style="margin-bottom: 32px;">
+            <h2 class="hero-welcome-title">Module 01: Sign-In &amp; Authentication</h2>
+            <p class="hero-welcome-desc">Authenticate with your HR Admin credentials (for staging walkthrough: <code>vanessa.wu@nautilus.test</code>) to unlock HR and Management workspace menus.</p>
+          </div>
+
+          <div class="g-flow">
+            <article class="g-step" id="hr-step-01">
+              <div class="g-step-head">
+                <span class="g-step-index">01</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Authentication</span>
+                    <span class="g-step-badge-tag">/login</span>
+                  </div>
+                  <h3 class="g-step-title">HR Admin Sign-In Page</h3>
+                  <p class="g-step-lead">Enter your <code>Email</code> and <code>Password</code> (with optional <code>Show password</code> toggle) and click <strong>Sign in</strong>. Alternative sign-in options include <strong>Google</strong> OAuth and <strong>Sign in with Biometrics</strong>.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar">
+                  <span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span>
+                  <span class="g-path-bar"><span>/login?from=%2F</span></span>
+                  <span class="g-zoom-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg> Click image to zoom</span>
+                </div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/01_login.png" alt="HR Admin Sign-In Page" loading="eager"></div>
+                <figcaption class="g-shot-caption"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg><span>Figure 01: SparkX login screen with Email/Password fields, OAuth, and Biometrics options.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 01 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Navigate to the SparkX portal URL (<code>/login</code>) in your desktop browser.</span></li>
+                  <li><span class="g-num">2</span><span>Enter your HR Admin <strong>Email</strong> (e.g. <code>vanessa.wu@nautilus.test</code>) and <strong>Password</strong>; use the eye icon to verify your password if needed.</span></li>
+                  <li><span class="g-num">3</span><span>Click <strong>Sign in</strong> (or use <strong>Google</strong> / <strong>Sign in with Biometrics</strong>) to open your HR Admin workspace.</span></li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- 02. Dashboard & Sidebar -->
+        <section id="hr-dashboard" class="onboarding-section">
+          <div class="hero-welcome-card" style="margin-bottom: 32px;">
+            <h2 class="hero-welcome-title">Module 02: Dashboard &amp; Sidebar Navigation</h2>
+            <p class="hero-welcome-desc">Monitor pending inbox items, document requests, and team leave schedules from the Home Dashboard while navigating HR and Management modules from the left sidebar.</p>
+          </div>
+
+          <div class="g-flow">
+            <article class="g-step" id="hr-step-02">
+              <div class="g-step-head">
+                <span class="g-step-index">02</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Dashboard</span>
+                    <span class="g-step-badge-tag">/ess</span>
+                  </div>
+                  <h3 class="g-step-title">Home Dashboard &amp; Summary Metrics</h3>
+                  <p class="g-step-lead">Displays a personalized greeting, active announcement banner, and customizable KPI cards: <code>Pending Inbox</code>, <code>Leave Balance</code>, <code>Pending Claims</code>, and <code>+ Add Metric</code>.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/02_dashboard_top.png" alt="Home Dashboard Top" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 02: HR Admin Home Dashboard with announcement banner and summary metric cards.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 02 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Review the top <strong>Announcement Banner</strong> and click <strong>Learn More &rarr;</strong> to open active company-wide notices.</span></li>
+                  <li><span class="g-num">2</span><span>Check your <strong>Pending Inbox</strong>, <strong>Leave Balance</strong>, and <strong>Pending Claims</strong> KPI cards for immediate action items.</span></li>
+                  <li><span class="g-num">3</span><span>Click <strong>+ Add Metric</strong> on the right to customize additional dashboard KPIs.</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="hr-step-03">
+              <div class="g-step-head">
+                <span class="g-step-index">03</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Sidebar Menu</span>
+                    <span class="g-step-badge-tag">Navigation</span>
+                  </div>
+                  <h3 class="g-step-title">Sidebar HR &amp; Management Menus</h3>
+                  <p class="g-step-lead">Beneath the Organization Switcher and Employee Self-Service links, HR Admins see the <strong>HR</strong> section (6 modules) and <strong>Management</strong> section (6 modules), plus their <code>HR Admin</code> user badge and floating AI Assistant.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess (Sidebar)</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/03_sidebar_hr_menu.png" alt="Sidebar HR and Management Menus" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 03: Left sidebar scrolled to show the HR and Management sections and HR Admin profile card.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 03 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Use the <strong>Organization</strong> switcher at the top-left to confirm or change your active company group (e.g. <code>PT. Nautilus Group</code>).</span></li>
+                  <li><span class="g-num">2</span><span>Scroll the left sidebar down to the <strong>HR</strong> section to access <code>Profile Requests</code>, <code>Pending Approvals</code>, <code>Organization Chart</code>, <code>Onboarding Admin</code>, <code>Offboarding Admin</code>, and <code>Distribute Documents</code>.</span></li>
+                  <li><span class="g-num">3</span><span>Scroll further to the <strong>Management</strong> section for <code>Announcements</code>, <code>Finance Operations</code>, <code>Reports</code>, <code>Configuration</code>, <code>Master Data</code>, and <code>Audit Trail</code>.</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="hr-step-04">
+              <div class="g-step-head">
+                <span class="g-step-index">04</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Widgets</span>
+                    <span class="g-step-badge-tag">/ess</span>
+                  </div>
+                  <h3 class="g-step-title">Priority Tasks &amp; Team on Leave</h3>
+                  <p class="g-step-lead">The lower dashboard surfaces <code>Priority Tasks</code> (e.g., pending Employee Reference Letter requests with <strong>Review</strong> buttons), <code>Activity Feed</code>, and <code>Team on Leave (This Week)</code>.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess (Widgets)</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/04_dashboard_bottom.png" alt="Dashboard Lower Widgets" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 04: Priority Tasks, Activity Feed, and Team on Leave widgets.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 04 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Scroll down the Dashboard to inspect <strong>Priority Tasks</strong> (such as pending <code>Document: Employee Reference Letter</code> requests).</span></li>
+                  <li><span class="g-num">2</span><span>Click <strong>Review</strong> on any task card to open and process it, or click <strong>View All &gt;</strong> to see the full queue.</span></li>
+                  <li><span class="g-num">3</span><span>Check <strong>Activity Feed</strong> and <strong>Team on Leave (This Week)</strong> on the right to monitor upcoming absences.</span></li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- 03. HR -> Profile Requests -->
+        <section id="hr-profile-requests" class="onboarding-section">
+          <div class="hero-welcome-card" style="margin-bottom: 32px;">
+            <h2 class="hero-welcome-title">Module 03: HR &rarr; Profile Requests</h2>
+            <p class="hero-welcome-desc">Review and audit employee profile update requests assigned to you as HRBP / HR Admin.</p>
+          </div>
+
+          <div class="g-flow">
+            <article class="g-step" id="hr-step-05">
+              <div class="g-step-head">
+                <span class="g-step-index">05</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">HR Menu</span>
+                    <span class="g-step-badge-tag">/ess/management/profile-requests</span>
+                  </div>
+                  <h3 class="g-step-title">Profile Change Requests Queue</h3>
+                  <p class="g-step-lead">Top summary cards track <code>Pending Review</code> vs. <code>Resolved</code> requests. Each card lists employee name, NIK, request ID (<code>PRF-00079</code>), modified section count, date, and status pill.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess/management/profile-requests</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/05_profile_requests_list.png" alt="Profile Requests List" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 05: Profile Change Requests list with Pending Review and Resolved summary cards.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 05 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Open <strong>HR &rarr; Profile Requests</strong> from the left sidebar.</span></li>
+                  <li><span class="g-num">2</span><span>Check the <strong>Pending Review</strong> and <strong>Resolved</strong> summary cards at the top to gauge your workload.</span></li>
+                  <li><span class="g-num">3</span><span>Scan each request card for employee name, <code>NIK</code>, request ID (e.g. <code>PRF-00079</code>), modified section count, and status pill.</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="hr-step-06">
+              <div class="g-step-head">
+                <span class="g-step-index">06</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Detail View</span>
+                    <span class="g-step-badge-tag">Approved</span>
+                  </div>
+                  <h3 class="g-step-title">Expanded Approved Request</h3>
+                  <p class="g-step-lead">Clicking an approved request expands a green confirmation banner recording the exact timestamp when the profile changes were applied.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>PRF-00079</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/06_profile_requests_approved.png" alt="Approved Profile Request" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 06: Expanded approved profile request showing when changes were applied.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 06 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Click an <code>approved</code> request card (such as <code>PRF-00079</code>) to expand its audit details.</span></li>
+                  <li><span class="g-num">2</span><span>Verify the green confirmation banner showing the exact timestamp when the profile changes were applied.</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="hr-step-07">
+              <div class="g-step-head">
+                <span class="g-step-index">07</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Detail View</span>
+                    <span class="g-step-badge-tag">Rejected</span>
+                  </div>
+                  <h3 class="g-step-title">Expanded Rejected Request</h3>
+                  <p class="g-step-lead">Clicking a rejected request displays the recorded <code>Rejection reason</code> note for auditability. Approve/Reject buttons appear only on pending items.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>PRF-00074</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/07_profile_requests_rejected.png" alt="Rejected Profile Request" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 07: Expanded rejected profile request showing the rejection reason.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 07 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Click a <code>rejected</code> request card (such as <code>PRF-00074</code>) to expand its details.</span></li>
+                  <li><span class="g-num">2</span><span>Review the recorded <strong>Rejection reason</strong> note. For <code>Pending Review</code> items, use the Approve/Reject buttons that appear inside the expanded card.</span></li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- 04. HR -> Pending Approvals -->
+        <section id="hr-pending-approvals" class="onboarding-section">
+          <div class="hero-welcome-card" style="margin-bottom: 32px;">
+            <h2 class="hero-welcome-title">Module 04: HR &rarr; Pending Approvals</h2>
+            <p class="hero-welcome-desc">Triage every request still waiting on an approver, copy decision links to follow up, or co-assign an alternate approver.</p>
+          </div>
+
+          <div class="g-flow">
+            <article class="g-step" id="hr-step-08">
+              <div class="g-step-head">
+                <span class="g-step-index">08</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">HR Menu</span>
+                    <span class="g-step-badge-tag">/ess/management/pending-approvals</span>
+                  </div>
+                  <h3 class="g-step-title">Approvals Triage &amp; Filters</h3>
+                  <p class="g-step-lead">Three summary cards track <code>Waiting</code>, <code>Overdue</code> (&gt;3 days), and <code>Approver can't act</code> (deactivated login). Filter by search query, module, company, or <code>Overdue only</code>.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess/management/pending-approvals</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/08_pending_approvals_list.png" alt="Pending Approvals List" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 08: Pending Approvals triage view with summary cards and module/company filters.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 08 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Open <strong>HR &rarr; Pending Approvals</strong> to view every request currently waiting on an approver.</span></li>
+                  <li><span class="g-num">2</span><span>Monitor the <strong>Waiting</strong>, <strong>Overdue</strong> (&gt;3 days), and <strong>Approver can't act</strong> summary cards.</span></li>
+                  <li><span class="g-num">3</span><span>Use the search box, <strong>Module</strong> dropdown, <strong>Company</strong> dropdown, and <strong>Overdue only</strong> toggle to narrow down stalled items.</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="hr-step-09">
+              <div class="g-step-head">
+                <span class="g-step-index">09</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Step Trail</span>
+                    <span class="g-step-badge-tag">Copy Link</span>
+                  </div>
+                  <h3 class="g-step-title">Expanded Approval Steps</h3>
+                  <p class="g-step-lead">Expand any card to inspect the step-by-step approval chain. Use <strong>Copy link</strong> to copy the assigned approver's direct decision link and send a reminder.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>LR-MU1Z3PLI</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/09_pending_approvals_expanded.png" alt="Expanded Pending Approval" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 09: Expanded approval card showing current step and assigned approver.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 09 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Click the expand chevron on a request card (e.g. <code>LR-MU1Z3PLI</code>) to inspect its step-by-step approval chain and current assignee.</span></li>
+                  <li><span class="g-num">2</span><span>Click <strong>Copy link</strong> to copy the assigned approver's direct decision link and send them a reminder.</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="hr-step-10">
+              <div class="g-step-head">
+                <span class="g-step-index">10</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Delegation</span>
+                    <span class="g-step-badge-tag">Add Approver</span>
+                  </div>
+                  <h3 class="g-step-title">Add Alternate Approver Modal</h3>
+                  <p class="g-step-lead">Click <strong>Add approver</strong> to co-assign an active-login user with company access. Enter a <code>Reason</code> and click <strong>Add &amp; get link</strong> &mdash; whoever decides first resolves the step.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>Add approver</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/10_pending_approvals_add_approver.png" alt="Add Approver Modal" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 10: Add approver modal with searchable person selector and reason field.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 10 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>If the current approver is unavailable or cannot act, click <strong>Add approver</strong> on the request card.</span></li>
+                  <li><span class="g-num">2</span><span>Search by name or employee number under <strong>Person to add</strong> (active-login users with company access, excluding the requester) and enter a <strong>Reason</strong>.</span></li>
+                  <li><span class="g-num">3</span><span>Click <strong>Add &amp; get link</strong> to co-assign the alternate approver (whichever approver decides first resolves the step).</span></li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- 05. HR -> Organization Chart -->
+        <section id="hr-org-chart" class="onboarding-section">
+          <div class="hero-welcome-card" style="margin-bottom: 32px;">
+            <h2 class="hero-welcome-title">Module 05: HR &rarr; Organization Chart</h2>
+            <p class="hero-welcome-desc">Inspect reporting lines across each company and spot structural gaps like missing supervisors or cross-company reporting.</p>
+          </div>
+
+          <div class="g-flow">
+            <article class="g-step" id="hr-step-11">
+              <div class="g-step-head">
+                <span class="g-step-index">11</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">HR Menu</span>
+                    <span class="g-step-badge-tag">/ess/management/org-chart</span>
+                  </div>
+                  <h3 class="g-step-title">Company Selector Panel</h3>
+                  <p class="g-step-lead">Search and select a company from the left <code>Companies</code> panel (<code>AGI</code>, <code>BCR</code>, <code>SON</code>, <code>STAA</code>) to render its interactive reporting hierarchy.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess/management/org-chart</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/11_org_chart_initial.png" alt="Organization Chart Initial" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 11: Organization Chart initial state prompting company selection.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 11 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Open <strong>HR &rarr; Organization Chart</strong> from the left sidebar.</span></li>
+                  <li><span class="g-num">2</span><span>Use the <strong>Search companies...</strong> box in the left <strong>Companies</strong> panel or click any company card to load its org chart.</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="hr-step-12">
+              <div class="g-step-head">
+                <span class="g-step-index">12</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Hierarchy</span>
+                    <span class="g-step-badge-tag">AGI</span>
+                  </div>
+                  <h3 class="g-step-title">Hierarchy &amp; Health Metrics</h3>
+                  <p class="g-step-lead">Health pills summarize <code>People</code>, <code>Managers</code>, <code>Levels</code>, <code>No supervisor</code>, <code>Reports outside</code>, and <code>Loops</code>. Employee cards link directly to employee profiles and highlight cross-company reporting.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess/management/org-chart (AGI)</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/12_org_chart_agi.png" alt="Organization Chart AGI" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 12: Organization chart for AGI with health metric pills and node cards.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 12 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Review the top health metric pills (<code>People</code>, <code>Managers</code>, <code>Levels</code>, <code>No supervisor</code>, <code>Reports outside</code>, <code>Loops</code>) to spot reporting gaps.</span></li>
+                  <li><span class="g-num">2</span><span>Click any employee name on a node card to open their profile, or inspect cross-company reporting badges above top-level nodes.</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="hr-step-13">
+              <div class="g-step-head">
+                <span class="g-step-index">13</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Canvas Tools</span>
+                    <span class="g-step-badge-tag">Zoom &amp; Pan</span>
+                  </div>
+                  <h3 class="g-step-title">Zoom, Fit &amp; Canvas Controls</h3>
+                  <p class="g-step-lead">Use <code>Find a person&hellip;</code>, <strong>Expand all</strong>, <strong>Collapse</strong>, drag-to-pan, and the bottom-right zoom toolbar (<code>+</code>, <code>70%</code>, <code>-</code>, <strong>Fit the whole chart</strong>).</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>Canvas Controls</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/13_org_chart_controls.png" alt="Org Chart Canvas Controls" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 13: Bottom-right zoom and fit-to-screen controls on the chart canvas.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 13 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Use <strong>Find a person&hellip;</strong>, <strong>Expand all</strong>, and <strong>Collapse</strong> in the toolbar above the canvas to locate specific teams.</span></li>
+                  <li><span class="g-num">2</span><span>Drag the canvas to pan, or use the bottom-right floating toolbar (<code>+</code>, <code>-</code>, and <strong>Fit the whole chart</strong>) to adjust zoom.</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="hr-step-14">
+              <div class="g-step-head">
+                <span class="g-step-index">14</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Presentation</span>
+                    <span class="g-step-badge-tag">Fullscreen</span>
+                  </div>
+                  <h3 class="g-step-title">Fullscreen Chart Mode</h3>
+                  <p class="g-step-lead">Click the <strong>Full screen</strong> icon in the bottom-right toolbar to expand the org chart across the entire viewport for reviews.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>Fullscreen Mode</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/14_org_chart_fullscreen.png" alt="Org Chart Fullscreen" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 14: Fullscreen organization chart view.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 14 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Click the <strong>Full screen</strong> icon in the bottom-right floating toolbar to expand the chart across the entire viewport.</span></li>
+                  <li><span class="g-num">2</span><span>Press <code>Esc</code> or click the exit-fullscreen button when finished reviewing.</span></li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- 06. HR -> Onboarding Admin -->
+        <section id="hr-onboarding" class="onboarding-section">
+          <div class="hero-welcome-card" style="margin-bottom: 32px;">
+            <h2 class="hero-welcome-title">Module 06: HR &rarr; Onboarding Admin</h2>
+            <p class="hero-welcome-desc">Enroll new hires into structured onboarding and review document checklist, asset, training, and buddy progress.</p>
+          </div>
+
+          <div class="g-flow">
+            <article class="g-step" id="hr-step-15">
+              <div class="g-step-head">
+                <span class="g-step-index">15</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">HR Menu</span>
+                    <span class="g-step-badge-tag">/ess/management/onboarding/checklist</span>
+                  </div>
+                  <h3 class="g-step-title">Onboarding Enrollments Table</h3>
+                  <p class="g-step-lead">Switch between <code>Active</code>, <code>Completed</code>, and <code>Cancelled</code> tabs. The table shows <code>Employee</code>, <code>Department / Position</code>, <code>Start Date</code>, <code>Progress</code>, <code>Status</code>, and <strong>Review</strong> actions.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess/management/onboarding/checklist</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/15_onboarding_admin_list.png" alt="Onboarding Admin List" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 15: Onboarding Admin Active tab listing enrolled employees and progress.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 15 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Open <strong>HR &rarr; Onboarding Admin</strong> from the left sidebar.</span></li>
+                  <li><span class="g-num">2</span><span>Switch between the <strong>Active</strong>, <strong>Completed</strong>, and <strong>Cancelled</strong> tabs to filter onboarding enrollments.</span></li>
+                  <li><span class="g-num">3</span><span>Review each row's <code>Department / Position</code>, <code>Start Date</code>, and task <code>Progress</code> bar.</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="hr-step-16">
+              <div class="g-step-head">
+                <span class="g-step-index">16</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Enrollment</span>
+                    <span class="g-step-badge-tag">+ Enroll Employee</span>
+                  </div>
+                  <h3 class="g-step-title">Enroll Employee Modal</h3>
+                  <p class="g-step-lead">Click <strong>+ Enroll Employee</strong>, pick or search an employee by name/NIK, set <code>Onboarding Start Date *</code> (used to auto-calculate task due dates), add optional notes, and submit.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>Enroll Employee</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/16_onboarding_enroll_modal.png" alt="Enroll Employee Modal" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 16: Enroll Employee modal with employee search and Onboarding Start Date.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 16 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Click <strong>+ Enroll Employee</strong> in the top-right header.</span></li>
+                  <li><span class="g-num">2</span><span>Select an employee from <strong>Select Employee</strong> or search by name/NIK in <strong>Search All Employees</strong>.</span></li>
+                  <li><span class="g-num">3</span><span>Set the <strong>Onboarding Start Date *</strong> (task due dates are auto-calculated from this date), add optional notes, and click <strong>Enroll Employee</strong>.</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="hr-step-17">
+              <div class="g-step-head">
+                <span class="g-step-index">17</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Review</span>
+                    <span class="g-step-badge-tag">4 Sub-Tabs</span>
+                  </div>
+                  <h3 class="g-step-title">Review Progress Modal</h3>
+                  <p class="g-step-lead">Click <strong>Review</strong> on any row to inspect 4 sub-tabs: <code>Document Checklist</code>, <code>Asset Allocation</code>, <code>Training &amp; Induction</code>, and <code>Buddy Assignment</code>.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>Review Onboarding</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/17_onboarding_review_modal.png" alt="Onboarding Review Modal" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 17: Onboarding Review modal showing the 4-tab progress layout.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 17 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Click <strong>Review</strong> on any active enrollment row in the Onboarding Admin table.</span></li>
+                  <li><span class="g-num">2</span><span>Switch across the 4 sub-tabs &mdash; <strong>Document Checklist</strong>, <strong>Asset Allocation</strong>, <strong>Training &amp; Induction</strong>, and <strong>Buddy Assignment</strong> &mdash; to inspect completion.</span></li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- 07. HR -> Offboarding Admin -->
+        <section id="hr-offboarding" class="onboarding-section">
+          <div class="hero-welcome-card" style="margin-bottom: 32px;">
+            <h2 class="hero-welcome-title">Module 07: HR &rarr; Offboarding Admin</h2>
+            <p class="hero-welcome-desc">Review resignations, track departmental clearance progress, and schedule exit interviews.</p>
+          </div>
+
+          <div class="g-flow">
+            <article class="g-step" id="hr-step-18">
+              <div class="g-step-head">
+                <span class="g-step-index">18</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">HR Menu</span>
+                    <span class="g-step-badge-tag">/ess/management/offboarding/checklist</span>
+                  </div>
+                  <h3 class="g-step-title">Offboarding Queue &amp; Filters</h3>
+                  <p class="g-step-lead">Four stat cards track <code>Total Offboarding</code>, <code>Pending Approval</code>, <code>Cleared</code>, and <code>In Progress</code>. Filter by search, <code>All Departments</code>, or status pills. Cases enter from resignation workflows.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess/management/offboarding/checklist</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/18_offboarding_admin.png" alt="Offboarding Admin" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 18: Offboarding Admin queue with stat cards and department/status filters.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 18 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Open <strong>HR &rarr; Offboarding Admin</strong> from the left sidebar.</span></li>
+                  <li><span class="g-num">2</span><span>Check the 4 summary cards (<code>Total Offboarding</code>, <code>Pending Approval</code>, <code>Cleared</code>, <code>In Progress</code>).</span></li>
+                  <li><span class="g-num">3</span><span>Use the search input, <strong>All Departments</strong> dropdown, and status pills to track active resignation clearances.</span></li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- 08. HR -> Distribute Documents -->
+        <section id="hr-documents" class="onboarding-section">
+          <div class="hero-welcome-card" style="margin-bottom: 32px;">
+            <h2 class="hero-welcome-title">Module 08: HR &rarr; Distribute Documents</h2>
+            <p class="hero-welcome-desc">Publish company-wide or targeted PDF documents, require employee acknowledgements, and manage archived records.</p>
+          </div>
+
+          <div class="g-flow">
+            <article class="g-step" id="hr-step-19">
+              <div class="g-step-head">
+                <span class="g-step-index">19</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">HR Menu</span>
+                    <span class="g-step-badge-tag">/ess/management/documents</span>
+                  </div>
+                  <h3 class="g-step-title">Active Documents Table</h3>
+                  <p class="g-step-lead">Lists published documents with <code>Title</code>, <code>Category</code>, <code>Scope</code>, <code>Ack</code> (<code>Required</code> / <code>None</code>), <code>Published</code> date, and <strong>Edit</strong> / <strong>Archive</strong> actions.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess/management/documents</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/19_distribute_documents_list.png" alt="Distribute Documents List" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 19: Active Documents table with acknowledgement status and Edit/Archive actions.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 19 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Open <strong>HR &rarr; Distribute Documents</strong> from the left sidebar.</span></li>
+                  <li><span class="g-num">2</span><span>Review published documents in the table along with their <code>Category</code>, <code>Scope</code>, <code>Ack</code> requirement, and <code>Published</code> date.</span></li>
+                  <li><span class="g-num">3</span><span>Use <strong>Edit</strong> to update metadata or <strong>Archive</strong> to retire an outdated document.</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="hr-step-20">
+              <div class="g-step-head">
+                <span class="g-step-index">20</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Publish</span>
+                    <span class="g-step-badge-tag">+ Create Document</span>
+                  </div>
+                  <h3 class="g-step-title">Distribute Company Document Modal</h3>
+                  <p class="g-step-lead">Click <strong>+ Create Document</strong>, enter <code>Document Title</code>, choose <code>Category</code> (<code>Policy / Compliance</code>, <code>Announcement</code>, <code>Informational</code>), upload a PDF, and configure <code>Requires acknowledgement</code> and <code>Allow download</code>.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>Distribute Company Document</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/20_distribute_documents_modal.png" alt="Distribute Document Modal" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 20: Distribute Company Document modal with PDF upload and acknowledgement toggles.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 20 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Click <strong>+ Create Document</strong> in the top-right header to open the <strong>Distribute Company Document</strong> modal.</span></li>
+                  <li><span class="g-num">2</span><span>Enter the <strong>Document Title</strong>, pick a <strong>Category</strong>, upload a PDF under <strong>Upload Document (PDF)</strong>, and configure <strong>Requires acknowledgement</strong> and <strong>Allow download</strong>.</span></li>
+                  <li><span class="g-num">3</span><span>Click <strong>Publish Document</strong> once targeting and notes are complete.</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="hr-step-21">
+              <div class="g-step-head">
+                <span class="g-step-index">21</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Targeting</span>
+                    <span class="g-step-badge-tag">Target Scope</span>
+                  </div>
+                  <h3 class="g-step-title">Target Scope Options</h3>
+                  <p class="g-step-lead">Target documents to <code>All Employees</code>, <code>By Company</code>, <code>By Division</code>, or <code>By Department</code>.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>Target Scope</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/21_distribute_documents_scope.png" alt="Target Scope Options" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 21: Target Scope dropdown options inside the Distribute Company Document modal.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 21 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Inside the modal, open the <strong>Target Scope</strong> dropdown.</span></li>
+                  <li><span class="g-num">2</span><span>Choose whether the document applies to <code>All Employees</code>, <code>By Company</code>, <code>By Division</code>, or <code>By Department</code>.</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="hr-step-22">
+              <div class="g-step-head">
+                <span class="g-step-index">22</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Targeting</span>
+                    <span class="g-step-badge-tag">By Company</span>
+                  </div>
+                  <h3 class="g-step-title">Dynamic Company Selector</h3>
+                  <p class="g-step-lead">Choosing a narrower scope such as <code>By Company</code> dynamically reveals the corresponding target selector (e.g., <code>&mdash; Select Company &mdash;</code>).</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>By Company Picker</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/22_distribute_documents_company.png" alt="Dynamic Company Selector" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 22: Dynamic Company dropdown revealed when Target Scope is set to By Company.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 22 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>When you select a narrower scope such as <code>By Company</code>, wait for the dynamic target selector (e.g. <strong>Company</strong>) to appear below.</span></li>
+                  <li><span class="g-num">2</span><span>Choose the specific company, division, or department before publishing.</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="hr-step-23">
+              <div class="g-step-head">
+                <span class="g-step-index">23</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Archive</span>
+                    <span class="g-step-badge-tag">Restore</span>
+                  </div>
+                  <h3 class="g-step-title">Archived &amp; Restore Documents</h3>
+                  <p class="g-step-lead">Expand the collapsible <code>Archived ( N )</code> section at the bottom of the page to inspect archived documents and click <strong>&crarr; Restore</strong> to republish them.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>Archived Section</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/23_distribute_documents_archived.png" alt="Archived Documents" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 23: Expanded Archived section with Restore action.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 23 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Scroll to the bottom of the Distribute Documents page and click <strong>Archived ( N )</strong> to expand archived records.</span></li>
+                  <li><span class="g-num">2</span><span>Click <strong>Restore</strong> on any archived document to return it to the active list.</span></li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- 09. Management -> Announcements -->
+        <section id="mgmt-announcements" class="onboarding-section">
+          <div class="hero-welcome-card" style="margin-bottom: 32px;">
+            <h2 class="hero-welcome-title">Module 09: Management &rarr; Announcements</h2>
+            <p class="hero-welcome-desc">Broadcast messages to employee segments with optional CTA links, expiration dates, and push notifications.</p>
+          </div>
+
+          <div class="g-flow">
+            <article class="g-step" id="hr-step-24">
+              <div class="g-step-head">
+                <span class="g-step-index">24</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Management Menu</span>
+                    <span class="g-step-badge-tag">/ess/management/announcements</span>
+                  </div>
+                  <h3 class="g-step-title">Announcements List</h3>
+                  <p class="g-step-lead">Search announcements and review <code>Title</code>, <code>Target</code> (company count), <code>Status</code> (<code>Active</code> / <code>Expired</code>), <code>Push</code> status, <code>Published</code> date, and row actions (Edit, Re-send push, Deactivate).</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess/management/announcements</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/24_announcements_list.png" alt="Announcements List" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 24: Announcements management table with status and push delivery columns.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 24 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Open <strong>Management &rarr; Announcements</strong> from the left sidebar.</span></li>
+                  <li><span class="g-num">2</span><span>Use <strong>Search announcements...</strong> and inspect <code>Target</code>, <code>Status</code> (<code>Active</code> / <code>Expired</code>), <code>Push</code> delivery, and <code>Published</code> date.</span></li>
+                  <li><span class="g-num">3</span><span>Use the row action icons to edit, re-send push notifications, or deactivate announcements you manage.</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="hr-step-25">
+              <div class="g-step-head">
+                <span class="g-step-index">25</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Broadcast</span>
+                    <span class="g-step-badge-tag">+ New Announcement</span>
+                  </div>
+                  <h3 class="g-step-title">New Announcement Modal</h3>
+                  <p class="g-step-lead">Click <strong>+ New Announcement</strong>, set <code>Title *</code>, optional <code>Subtitle</code> and <code>CTA Link</code>, select <code>Companies</code> (leave as <code>All companies</code> for all managed entities), set optional expiry, and toggle <code>Send push notification now</code>.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>New Announcement</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/25_announcements_new_modal.png" alt="New Announcement Modal" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 25: New Announcement modal with audience targeting and push notification toggle.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 25 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Click <strong>+ New Announcement</strong> in the top-right header.</span></li>
+                  <li><span class="g-num">2</span><span>Enter <strong>Title *</strong>, optional <strong>Subtitle</strong>, and optional <strong>CTA Link</strong>, then choose target <strong>Companies</strong> (or leave as <code>All companies</code>).</span></li>
+                  <li><span class="g-num">3</span><span>Optionally set <strong>Expires At</strong>, toggle <strong>Send push notification now</strong>, and click <strong>Create</strong>.</span></li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- 10. Management -> Finance Operations -->
+        <section id="mgmt-finance" class="onboarding-section">
+          <div class="hero-welcome-card" style="margin-bottom: 32px;">
+            <h2 class="hero-welcome-title">Module 10: Management &rarr; Finance Operations</h2>
+            <p class="hero-welcome-desc">Execute claim reimbursement payouts, export SAP-ready CSV files, and reconcile corporate card statements per company.</p>
+          </div>
+
+          <div class="g-flow">
+            <article class="g-step" id="hr-step-26">
+              <div class="g-step-head">
+                <span class="g-step-index">26</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Management Menu</span>
+                    <span class="g-step-badge-tag">/ess/management/finance</span>
+                  </div>
+                  <h3 class="g-step-title">Company Selection</h3>
+                  <p class="g-step-lead">Select a company from the left <code>Companies</code> panel (<code>AGI</code>, <code>BCR</code>, <code>SON</code>, <code>STAA</code>) to open its finance workspace.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess/management/finance</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/26_finance_ops_initial.png" alt="Finance Operations Initial" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 26: Finance Operations company selector view.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 26 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Open <strong>Management &rarr; Finance Operations</strong> from the left sidebar.</span></li>
+                  <li><span class="g-num">2</span><span>Use <strong>Search companies...</strong> or click a company card in the left <strong>Companies</strong> panel to load its finance workspace.</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="hr-step-27">
+              <div class="g-step-head">
+                <span class="g-step-index">27</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Reimbursement</span>
+                    <span class="g-step-badge-tag">Awaiting payment</span>
+                  </div>
+                  <h3 class="g-step-title">Reimbursement: Awaiting Payment</h3>
+                  <p class="g-step-lead">Under <code>Reimbursement &rarr; Awaiting payment</code>, process approved claims waiting to be paid. Any payout differing from the approved amount records a reason.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>Finance &mdash; AGI (Awaiting payment)</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/27_finance_ops_awaiting.png" alt="Finance Awaiting Payment" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 27: Reimbursement Run Awaiting payment sub-tab for AGI.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 27 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Under the <strong>Reimbursement</strong> tab, open the <strong>Awaiting payment</strong> sub-tab.</span></li>
+                  <li><span class="g-num">2</span><span>Review approved claims queued for payout; if an actual payout differs from the approved amount, record the variance reason.</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="hr-step-28">
+              <div class="g-step-head">
+                <span class="g-step-index">28</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Reimbursement</span>
+                    <span class="g-step-badge-tag">SAP CSV Export</span>
+                  </div>
+                  <h3 class="g-step-title">Reimbursement: Paid &amp; SAP Export</h3>
+                  <p class="g-step-lead">Under <code>Paid</code>, set <code>Paid from</code> / <code>Paid to</code> dates and click <strong>Export for SAP (CSV)</strong> to export one row per paid line item with GL account, WBS, cost center, business unit, approvers, and findings.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>Finance &mdash; AGI (Paid)</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/28_finance_ops_paid.png" alt="Finance Paid and SAP Export" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 28: Paid claims sub-tab with date range and Export for SAP (CSV) button.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 28 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Switch to the <strong>Paid</strong> sub-tab under <strong>Reimbursement</strong>.</span></li>
+                  <li><span class="g-num">2</span><span>Select the <strong>Paid from</strong> and <strong>Paid to</strong> date range.</span></li>
+                  <li><span class="g-num">3</span><span>Click <strong>Export for SAP (CSV)</strong> to download line-item payout data with GL account, WBS, cost center, business unit, and approver details.</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="hr-step-29">
+              <div class="g-step-head">
+                <span class="g-step-index">29</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Reconciliation</span>
+                    <span class="g-step-badge-tag">Corporate Cards</span>
+                  </div>
+                  <h3 class="g-step-title">Corporate Cards Reconciliation</h3>
+                  <p class="g-step-lead">Use <strong>Add provider</strong> and <strong>Add card</strong> to reconcile corporate card statements against claims. This tab is strictly for reconciliation and does not approve, block, or pay claims.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>Corporate Cards</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/29_finance_ops_cards.png" alt="Corporate Cards Tab" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 29: Corporate Cards tab with Add provider and Add card controls.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 29 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Switch to the <strong>Corporate Cards</strong> tab at the top of the company finance workspace.</span></li>
+                  <li><span class="g-num">2</span><span>Click <strong>Add provider</strong> or <strong>Add card</strong> to register corporate cards for statement reconciliation against employee claims.</span></li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- 11. Management -> Reports -->
+        <section id="mgmt-reports" class="onboarding-section">
+          <div class="hero-welcome-card" style="margin-bottom: 32px;">
+            <h2 class="hero-welcome-title">Module 11: Management &rarr; Reports &amp; Analytics</h2>
+            <p class="hero-welcome-desc">Build custom cross-module reports with CSV/PDF export, or monitor adoption metrics via App Analytics.</p>
+          </div>
+
+          <div class="g-flow">
+            <article class="g-step" id="hr-step-30">
+              <div class="g-step-head">
+                <span class="g-step-index">30</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Management Menu</span>
+                    <span class="g-step-badge-tag">/ess/management/reports</span>
+                  </div>
+                  <h3 class="g-step-title">Report Builder Form</h3>
+                  <p class="g-step-lead">Select from 14 <code>Data Source</code> modules (Leave, Medical, Claim &amp; Expenses, SAP Export, Onboarding, Offboarding, Attendance, Travel, etc.), filter by date/status/company, and toggle output <code>Columns</code>.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess/management/reports</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/30_reports_builder.png" alt="Report Builder Form" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 30: Report Builder with 14 data sources, filters, and dynamic column chips.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 30 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Open <strong>Management &rarr; Reports</strong> on the <strong>Report Builder</strong> tab.</span></li>
+                  <li><span class="g-num">2</span><span>Select one of the 14 modules in <strong>Data Source</strong>, then set <strong>From</strong>, <strong>To</strong>, <strong>Status</strong>, and <strong>Company</strong> filters.</span></li>
+                  <li><span class="g-num">3</span><span>Click the <strong>Columns</strong> chips to toggle which fields appear in the output table.</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="hr-step-31">
+              <div class="g-step-head">
+                <span class="g-step-index">31</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Output</span>
+                    <span class="g-step-badge-tag">CSV / PDF</span>
+                  </div>
+                  <h3 class="g-step-title">Generated Report &amp; Exports</h3>
+                  <p class="g-step-lead">Clicking <strong>Generate</strong> renders status summary cards (e.g., Total, Approved, Pending, Rejected) and the detail table, enabling <strong>Export CSV</strong> and <strong>Export PDF</strong>.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>Generated Leave Report</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/31_reports_generated.png" alt="Generated Leave Report" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 31: Generated Leave report with status breakdown cards and export buttons.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 31 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Click <strong>Generate</strong> to run the query and display status summary cards plus the detail table.</span></li>
+                  <li><span class="g-num">2</span><span>Click <strong>Export CSV</strong> or <strong>Export PDF</strong> to download the generated report.</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="hr-step-32">
+              <div class="g-step-head">
+                <span class="g-step-index">32</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Telemetry</span>
+                    <span class="g-step-badge-tag">App Analytics</span>
+                  </div>
+                  <h3 class="g-step-title">App Analytics Tab</h3>
+                  <p class="g-step-lead">Track platform adoption with <code>Total Logins</code>, <code>Active Users</code>, <code>New Accounts</code>, <code>Top Modules Accessed</code>, <code>Logins by Day</code>, <code>Role Distribution</code>, and <code>Logins by Method</code>, plus <strong>Export PDF</strong>.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>App Analytics</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/32_reports_app_analytics.png" alt="App Analytics Tab" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 32: App Analytics tab showing login KPIs, module usage, and role distribution.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 32 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Switch to the <strong>App Analytics</strong> tab in Reports.</span></li>
+                  <li><span class="g-num">2</span><span>Set the <strong>From</strong> / <strong>To</strong> date range and click <strong>Refresh</strong> to update login KPIs, top modules, and role/method breakdowns.</span></li>
+                  <li><span class="g-num">3</span><span>Click <strong>Export PDF</strong> to save an executive summary.</span></li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- 12. Management -> Configuration -->
+        <section id="mgmt-config" class="onboarding-section">
+          <div class="hero-welcome-card" style="margin-bottom: 32px;">
+            <h2 class="hero-welcome-title">Module 12: Management &rarr; Configuration</h2>
+            <p class="hero-welcome-desc">Configure global system settings, diagnostics, approval workflows, and per-module rules and policies.</p>
+          </div>
+
+          <div class="g-flow">
+            <article class="g-step" id="hr-step-33">
+              <div class="g-step-head">
+                <span class="g-step-index">33</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Management Menu</span>
+                    <span class="g-step-badge-tag">/ess/management/module-configuration</span>
+                  </div>
+                  <h3 class="g-step-title">Global Configuration Cards</h3>
+                  <p class="g-step-lead">Search or select from 6 <code>Global</code> configuration cards: <code>Setup Health</code>, <code>AI Settings</code>, <code>Holiday Settings</code>, <code>Workflow</code>, <code>Reporting Lines</code>, and <code>Notification</code>.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess/management/module-configuration</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/33_config_global.png" alt="Configuration Global Section" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 33: Configuration hub showing the 6 Global settings cards.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 33 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Open <strong>Management &rarr; Configuration</strong> from the left sidebar.</span></li>
+                  <li><span class="g-num">2</span><span>Use <strong>Search configuration...</strong> or click <strong>Configure &rarr;</strong> on any of the 6 <strong>Global</strong> cards (<code>Setup Health</code>, <code>AI Settings</code>, <code>Holiday Settings</code>, <code>Workflow</code>, <code>Reporting Lines</code>, <code>Notification</code>).</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="hr-step-34">
+              <div class="g-step-head">
+                <span class="g-step-index">34</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Module Rules</span>
+                    <span class="g-step-badge-tag">11 Modules</span>
+                  </div>
+                  <h3 class="g-step-title">Module Configuration Cards</h3>
+                  <p class="g-step-lead">Below Global settings, 11 <code>Modules</code> cards govern <code>Claim &amp; Expenses</code>, <code>Time &amp; Attendance</code>, <code>Overtime</code>, <code>Leave Request</code>, <code>Medical</code>, <code>Travel Request</code>, <code>Meeting Rooms</code>, <code>Offboarding</code>, <code>Onboarding</code>, <code>Document Config</code>, and <code>Employee Profile Config</code>.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>Modules Section</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/34_config_modules.png" alt="Configuration Modules Section" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 34: Configuration hub scrolled to the 11 Module configuration cards.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 34 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Scroll down to the <strong>Modules</strong> section to access the 11 module-specific policy cards.</span></li>
+                  <li><span class="g-num">2</span><span>Click <strong>Configure &rarr;</strong> on the module you want to customize (e.g. <code>Leave Request</code>, <code>Claim &amp; Expenses</code>, <code>Onboarding</code>, or <code>Employee Profile Config</code>).</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="hr-step-35">
+              <div class="g-step-head">
+                <span class="g-step-index">35</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Diagnostics</span>
+                    <span class="g-step-badge-tag">/ess/management/setup-health</span>
+                  </div>
+                  <h3 class="g-step-title">Setup Health Diagnostics</h3>
+                  <p class="g-step-lead">Per-company readiness diagnostics flagging missing approval routes, unassigned supervisors, or unconfigured leave types.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess/management/setup-health</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/35_config_setup_health.png" alt="Setup Health Diagnostics" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 35: Setup Health page showing per-company configuration checks.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 35 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Open <strong>Configuration &rarr; Setup Health</strong> (<code>/ess/management/setup-health</code>).</span></li>
+                  <li><span class="g-num">2</span><span>Review per-company diagnostics to identify missing approval routes, unassigned supervisors, or unconfigured leave types before go-live.</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="hr-step-36">
+              <div class="g-step-head">
+                <span class="g-step-index">36</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Approvals</span>
+                    <span class="g-step-badge-tag">/ess/management/workflow</span>
+                  </div>
+                  <h3 class="g-step-title">Workflow Configuration</h3>
+                  <p class="g-step-lead">Manage per-company module workflow assignments and global approval routing templates.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess/management/workflow</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/36_config_workflow.png" alt="Workflow Configuration" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 36: Workflow Configuration screen for company-level and global templates.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 36 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Open <strong>Configuration &rarr; Workflow</strong> (<code>/ess/management/workflow</code>).</span></li>
+                  <li><span class="g-num">2</span><span>Inspect or update per-company module workflow assignments and global approval routing templates.</span></li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- 13. Management -> Master Data -->
+        <section id="mgmt-master-data" class="onboarding-section">
+          <div class="hero-welcome-card" style="margin-bottom: 32px;">
+            <h2 class="hero-welcome-title">Module 13: Management &rarr; Master Data</h2>
+            <p class="hero-welcome-desc">Maintain organizational structures, employee directory records, and 24 lookup tables powering employee profile forms.</p>
+          </div>
+
+          <div class="g-flow">
+            <article class="g-step" id="hr-step-37">
+              <div class="g-step-head">
+                <span class="g-step-index">37</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Management Menu</span>
+                    <span class="g-step-badge-tag">/ess/management/data-management</span>
+                  </div>
+                  <h3 class="g-step-title">Master Data Lookup Hub (Top)</h3>
+                  <p class="g-step-lead">Search 24 lookup cards tagged by scope (<code>Org Setup</code>, <code>Company Setup</code>, <code>Grading</code>, <code>Global Setup</code>, <code>Directory</code>), including <code>Companies &amp; Cost Center</code>, <code>Business Structure</code>, <code>Positions</code>, and <code>Employees Management</code>.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess/management/data-management</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/37_master_data_top.png" alt="Master Data Top" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 37: Master Data hub displaying organizational and directory setup cards.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 37 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Open <strong>Management &rarr; Master Data</strong> from the left sidebar.</span></li>
+                  <li><span class="g-num">2</span><span>Use <strong>Search lookup tables...</strong> or click <strong>Manage options &rarr;</strong> on any organization, grading, position, or directory card.</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="hr-step-38">
+              <div class="g-step-head">
+                <span class="g-step-index">38</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Lookups</span>
+                    <span class="g-step-badge-tag">Banks &amp; Geo Data</span>
+                  </div>
+                  <h3 class="g-step-title">Master Data Lookup Hub (Bottom)</h3>
+                  <p class="g-step-lead">Scroll down to access HR/demographic lookups including <code>Job Characteristics</code>, <code>STEM Categories</code>, <code>Points of Hiring</code>, <code>Banks</code>, and <code>Geo Data</code> (157,035 records).</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess/management/data-management</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/38_master_data_bottom.png" alt="Master Data Bottom" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 38: Lower Master Data cards including Banks and Geo Data.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 38 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Scroll to the bottom of Master Data to manage HR and demographic lookup tables such as <code>Job Characteristics</code>, <code>STEM Categories</code>, <code>Points of Hiring</code>, <code>Banks</code>, and <code>Geo Data</code>.</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="hr-step-39">
+              <div class="g-step-head">
+                <span class="g-step-index">39</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Directory</span>
+                    <span class="g-step-badge-tag">/ess/management/employees/list</span>
+                  </div>
+                  <h3 class="g-step-title">Employees Management Directory</h3>
+                  <p class="g-step-lead">Filter employees by Company, Division, Department, and status (<code>ALL</code>, <code>ACTIVE</code>, <code>INACTIVE</code>). Supports <strong>Import CSV</strong>, <strong>+ Add Employee</strong>, <strong>View</strong>, <strong>Resend invitation</strong>, and <strong>Deactivate</strong>.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess/management/employees/list</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/39_master_data_employees.png" alt="Employees Management Directory" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 39: Employees Management directory with CSV import and account invitation actions.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 39 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Open <strong>Master Data &rarr; Employees Management</strong> (<code>/ess/management/employees/list</code>).</span></li>
+                  <li><span class="g-num">2</span><span>Filter by <strong>Company</strong>, <strong>Division</strong>, <strong>Department</strong>, or status (<code>ALL</code>, <code>ACTIVE</code>, <code>INACTIVE</code>), or search by name, NIK, or email.</span></li>
+                  <li><span class="g-num">3</span><span>Use <strong>Import CSV</strong> for bulk onboarding, or use row actions (<strong>View</strong>, <strong>Resend invitation</strong>, <strong>Deactivate</strong>).</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="hr-step-40">
+              <div class="g-step-head">
+                <span class="g-step-index">40</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Create</span>
+                    <span class="g-step-badge-tag">+ Add Employee</span>
+                  </div>
+                  <h3 class="g-step-title">Add Employee 4-Step Wizard</h3>
+                  <p class="g-step-lead">Clicking <strong>+ Add Employee</strong> launches a 4-step wizard starting with <code>Personnel Number (NIK) *</code>, <code>Full Name *</code>, <code>Office Email *</code>, <code>Company *</code>, <code>Position *</code>, <code>Gender</code>, and <code>Work Contract</code>.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>Add Employee (Step 1 of 4)</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/40_master_data_add_employee.png" alt="Add Employee Wizard" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 40: Add Employee 4-step wizard modal (Step 1).</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 40 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Click <strong>+ Add Employee</strong> in the Employees Management toolbar to open the 4-step wizard.</span></li>
+                  <li><span class="g-num">2</span><span>Fill in required Step 1 fields (<code>Personnel Number (NIK) *</code>, <code>Full Name *</code>, <code>Office Email *</code>, <code>Company *</code>, <code>Position *</code>) and click <strong>Next</strong> to continue.</span></li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- 14. Management -> Audit Trail -->
+        <section id="mgmt-audit-trail" class="onboarding-section">
+          <div class="hero-welcome-card" style="margin-bottom: 32px;">
+            <h2 class="hero-welcome-title">Module 14: Management &rarr; Audit Trail</h2>
+            <p class="hero-welcome-desc">Inspect an immutable, tamper-proof record of every submission, approval, rejection, balance update, and configuration change across all 27 modules.</p>
+          </div>
+
+          <div class="g-flow">
+            <article class="g-step" id="hr-step-41">
+              <div class="g-step-head">
+                <span class="g-step-index">41</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Management Menu</span>
+                    <span class="g-step-badge-tag">/ess/management/audit-trail</span>
+                  </div>
+                  <h3 class="g-step-title">Immutable Audit Trail Filters</h3>
+                  <p class="g-step-lead">Filter by <code>Module</code> (27 modules), <code>Employee</code>, and contextual <code>Transaction</code> type. Records cannot be modified or deleted, and paginate with <strong>Prev</strong> / <strong>Next</strong>.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess/management/audit-trail</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/41_audit_trail_list.png" alt="Audit Trail List" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 41: Immutable Audit Trail with Module, Employee, and Transaction filters.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 41 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Open <strong>Management &rarr; Audit Trail</strong> from the left sidebar.</span></li>
+                  <li><span class="g-num">2</span><span>Filter the immutable log by <strong>Module</strong> (27 modules), <strong>Employee</strong>, and contextual <strong>Transaction</strong> type, and use <strong>Prev</strong> / <strong>Next</strong> to paginate.</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="hr-step-42">
+              <div class="g-step-head">
+                <span class="g-step-index">42</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Forensics</span>
+                    <span class="g-step-badge-tag">Field Diff &amp; JSON</span>
+                  </div>
+                  <h3 class="g-step-title">Expanded Diff &amp; Raw JSON</h3>
+                  <p class="g-step-lead">Click any audit row to reveal a color-coded field-by-field diff (e.g., <code>status: "pending" &rarr; "approved"</code>) alongside a collapsible <code>&#9654; Raw JSON</code> payload viewer.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>Audit Diff View</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/hr-admin/42_audit_trail_expanded.png" alt="Audit Trail Expanded Diff" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 42: Expanded audit entry showing field-by-field diff and Raw JSON toggle.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <h4 class="g-instruction-heading">Step-by-Step Instructions</h4>
+                  </div>
+                  <span class="g-instruction-phase-badge">Screen 42 of 42</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Click any audit entry row to expand its color-coded field-by-field diff (e.g. <code>status: &quot;pending&quot; &rarr; &quot;approved&quot;</code>).</span></li>
+                  <li><span class="g-num">2</span><span>Click <strong>&#9654; Raw JSON</strong> if you need to inspect the complete underlying transaction payload.</span></li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Full-Resolution Screenshot Lightbox Modal -->
+  <div id="lightboxModal" class="lightbox-modal" role="dialog" aria-modal="true" aria-label="Screenshot Preview">
+    <div class="lightbox-content-wrap">
+      <img id="lightboxImg" class="lightbox-image" src="" alt="Screenshot Full View">
+      <div class="lightbox-caption-bar">
+        <span id="lightboxCaption">Screenshot View</span>
+        <button id="lightboxCloseBtn" class="lightbox-close-btn" aria-label="Close Preview">&#10005;</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Sidebar Collapse & Mobile Hamburger Drawer Toggle
+      const collapseBtn = document.getElementById('sidebarCollapseToggleHr');
+      const floatingBtn = document.getElementById('floatingSidebarBtnHr');
+      const isMobile = () => window.innerWidth <= 1024;
+      if (collapseBtn) {
+        collapseBtn.addEventListener('click', () => {
+          if (isMobile()) {
+            document.body.classList.remove('mobile-menu-open');
+          } else {
+            document.body.classList.add('sidebar-is-collapsed');
+          }
+        });
+      }
+      if (floatingBtn) {
+        floatingBtn.addEventListener('click', () => {
+          if (isMobile()) {
+            document.body.classList.add('mobile-menu-open');
+          } else {
+            document.body.classList.remove('sidebar-is-collapsed');
+          }
+        });
+      }
+      document.addEventListener('click', (e) => {
+        if (!isMobile() || !document.body.classList.contains('mobile-menu-open')) return;
+        if (!e.target.closest('.sidebar-sticky') && !e.target.closest('.floating-sidebar-btn')) {
+          document.body.classList.remove('mobile-menu-open');
+        }
+      });
+
+      // 2. Accordion Sidebar + Smooth Scroll + Scroll-Spy
+      const nav = document.getElementById('hrNav');
+      const groups = nav ? Array.from(nav.querySelectorAll('.emn-group')) : [];
+      const links = nav ? Array.from(nav.querySelectorAll('.emn-sub a')) : [];
+      const sections = [
+        'hr-login', 'hr-dashboard', 'hr-profile-requests', 'hr-pending-approvals',
+        'hr-org-chart', 'hr-onboarding', 'hr-offboarding', 'hr-documents',
+        'mgmt-announcements', 'mgmt-finance', 'mgmt-reports', 'mgmt-config',
+        'mgmt-master-data', 'mgmt-audit-trail'
+      ];
+      const counterEl = document.getElementById('stepCounterText');
+      const progressBar = document.getElementById('readingProgressBar');
+
+      function setOpen(group, open) {
+        group.classList.toggle('is-open', open);
+        const head = group.querySelector('.emn-head');
+        if (head) head.setAttribute('aria-expanded', open ? 'true' : 'false');
+      }
+
+      function scrollToTarget(el) {
+        if (!el) return;
+        const header = document.querySelector('.top-header');
+        const offset = (header ? header.offsetHeight : 72) + 20;
+        const y = Math.max(0, el.getBoundingClientRect().top + window.pageYOffset - offset);
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
+
+      groups.forEach(group => {
+        const head = group.querySelector('.emn-head');
+        if (!head) return;
+        head.addEventListener('click', () => {
+          const willOpen = !group.classList.contains('is-open');
+          setOpen(group, willOpen);
+          if (group.dataset.target) {
+            const target = document.querySelector(group.dataset.target);
+            scrollToTarget(target);
+            history.pushState(null, '', group.dataset.target);
+          }
+        });
+      });
+
+      links.forEach(link => {
+        link.addEventListener('click', (e) => {
+          const href = link.getAttribute('href');
+          if (href && href.startsWith('#')) {
+            e.preventDefault();
+            scrollToTarget(document.querySelector(href));
+            history.pushState(null, '', href);
+            if (isMobile()) {
+              document.body.classList.remove('mobile-menu-open');
+            }
+          }
+        });
+      });
+
+      function onScroll() {
+        const winScroll = window.pageYOffset || document.documentElement.scrollTop;
+        const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        if (progressBar) {
+          progressBar.style.width = Math.min(100, Math.max(0, docHeight > 0 ? (winScroll / docHeight) * 100 : 0)) + '%';
+        }
+
+        let currentIdx = 0;
+        sections.forEach((id, idx) => {
+          const el = document.getElementById(id);
+          if (el && el.getBoundingClientRect().top <= 180) currentIdx = idx;
+        });
+        if (counterEl) counterEl.textContent = `Module ${currentIdx + 1} of ${sections.length}`;
+
+        let active = null;
+        links.forEach(link => {
+          const target = document.querySelector(link.getAttribute('href'));
+          if (target && target.getBoundingClientRect().top <= 160) active = link;
+        });
+        if (!active) active = links[0];
+        links.forEach(link => link.classList.toggle('is-active', link === active));
+        const activeGroup = active && active.closest('.emn-group');
+        if (activeGroup && !activeGroup.classList.contains('is-open')) setOpen(activeGroup, true);
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+
+      // 3. Lightbox Zoom
+      const modal = document.getElementById('lightboxModal');
+      const modalImg = document.getElementById('lightboxImg');
+      const modalCaption = document.getElementById('lightboxCaption');
+      const closeBtn = document.getElementById('lightboxCloseBtn');
+
+      document.querySelectorAll('.mockup-viewport').forEach(vp => {
+        vp.addEventListener('click', () => {
+          const img = vp.querySelector('img');
+          const shot = vp.closest('.g-shot-top');
+          const cap = shot ? shot.querySelector('.g-shot-caption span') : null;
+          if (img && modal && modalImg) {
+            modalImg.src = img.src;
+            modalImg.alt = img.alt || 'Screenshot Preview';
+            if (modalCaption) modalCaption.textContent = (cap && cap.textContent) || img.alt || 'Screenshot Preview';
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+          }
+        });
+      });
+
+      function closeModal() {
+        if (!modal) return;
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) closeModal();
+        });
+      }
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal && modal.classList.contains('active')) closeModal();
+      });
+    });
+  </script>
+</body>
+</html>

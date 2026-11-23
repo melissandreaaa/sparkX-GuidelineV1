@@ -7,13 +7,21 @@
   <link rel="stylesheet" href="css/style.css?v=20261120-2">
   <link rel="icon" href="assets/screenshots/source/sign-in.png" type="image/png">
   <style>
-    /* Match Employee User Manual Sidebar & Layout System */
+    /* Ensure sticky sidebar works reliably (overflow-x: hidden on html/body breaks position: sticky) */
+    html, body {
+      overflow-x: clip !important;
+    }
+    /* Match Employee & HR Admin User Manual Sidebar & Layout System */
     #managerManualView .layout-container {
       grid-template-columns: 340px minmax(0, 1fr);
       gap: 32px;
+      align-items: start;
     }
     #managerManualView .sidebar-sticky {
-      max-height: calc(100vh - 84px);
+      position: sticky;
+      top: calc(var(--header-height, 64px) + 20px);
+      align-self: start;
+      max-height: calc(100vh - var(--header-height, 64px) - 36px);
       overflow-y: auto;
       overflow-x: hidden;
       padding-right: 4px;
@@ -132,7 +140,30 @@
     }
     @media (max-width: 1024px) {
       #managerManualView .layout-container {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+      }
+      #managerManualView .sidebar-sticky {
+        position: fixed !important;
+        top: var(--header-height, 64px) !important;
+        left: 0 !important;
+        bottom: 0 !important;
+        width: min(330px, 86vw) !important;
+        max-height: calc(100vh - var(--header-height, 64px)) !important;
+        z-index: 1200 !important;
+        background: #ffffff !important;
+        padding: 12px !important;
+        box-shadow: 8px 0 32px rgba(15, 23, 42, 0.22) !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        transform: translateX(-105%) !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
+      body.mobile-menu-open #managerManualView .sidebar-sticky {
+        transform: translateX(0) !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
       }
     }
   </style>
@@ -155,16 +186,12 @@
             <span>Manager User Manual</span>
           </span>
         </a>
-        <a href="index.html" class="back-portal-btn" title="Return to Documentation Home" style="text-decoration: none;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
-          <span>← Documentation Portal</span>
-        </a>
       </div>
 
       <div class="header-controls">
         <div class="progress-pill">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-          <span id="stepCounterText">Module 1 of 7</span>
+          <span id="stepCounterText">Module 1 of 8</span>
         </div>
       </div>
     </div>
@@ -188,9 +215,9 @@
       <!-- Left Sticky Sidebar Stepper -->
       <aside class="sidebar-sticky" id="sidebarStickyMgr">
         <div class="stepper-card">
-          <a href="index.html" class="sidebar-portal-btn" title="Return to Documentation Home">
+          <a href="index.html" class="sidebar-portal-btn" onclick="if (window.history.length > 1 && document.referrer) { event.preventDefault(); history.back(); }" title="Back to previous page">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
-            <span>← Documentation Portal</span>
+            <span>Back</span>
           </a>
           <div class="stepper-header">
             <div class="stepper-title">Manager User Manual</div>
@@ -205,14 +232,17 @@
 
           <nav class="emn-nav" id="mgrNav" aria-label="Manager User Manual Navigation">
 
-            <div class="emn-group is-ready is-open" data-target="#mgr-dashboard">
+            <div class="emn-group is-ready is-open" data-target="#mgr-getting-started">
               <button type="button" class="emn-head" aria-expanded="true">
                 <span class="emn-num">1</span>
-                <span class="emn-title">1. Manager Home Dashboard</span>
+                <span class="emn-title">1. Sign-In &amp; Dashboard</span>
                 <svg class="emn-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
               </button>
               <div class="emn-sub">
-                <a href="#mgr-step-01">01. Home Dashboard Overview</a>
+                <a href="#mgr-step-01">01. Manager Sign-In Page</a>
+                <a href="#mgr-step-02">02. Home Dashboard &amp; Priority Tasks</a>
+                <a href="#mgr-step-03">03. Customize Dashboard Metrics</a>
+                <a href="#mgr-step-04">04. ESS AI Assistant &amp; Sidebar</a>
               </div>
             </div>
 
@@ -223,12 +253,12 @@
                 <svg class="emn-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
               </button>
               <div class="emn-sub">
-                <a href="#mgr-step-02">02. Centralized Approvals Inbox</a>
-                <a href="#mgr-step-03">03. Bulk Selection &amp; Batch Approval</a>
-                <a href="#mgr-step-04">04. Business Travel Approval Modal</a>
-                <a href="#mgr-step-05">05. Leave &amp; Withdrawal Review Modal</a>
-                <a href="#mgr-step-06">06. PHL Grant Approval Modal</a>
-                <a href="#mgr-step-07">07. Decision History Archive</a>
+                <a href="#mgr-step-05">05. Centralized Approvals Inbox</a>
+                <a href="#mgr-step-06">06. Bulk Selection &amp; Batch Action</a>
+                <a href="#mgr-step-07">07. Travel Request Review Modal</a>
+                <a href="#mgr-step-08">08. Leave Withdrawal Review Modal</a>
+                <a href="#mgr-step-09">09. PHL Grant Review Modal</a>
+                <a href="#mgr-step-10">10. Decision History Archive</a>
               </div>
             </div>
 
@@ -239,9 +269,10 @@
                 <svg class="emn-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
               </button>
               <div class="emn-sub">
-                <a href="#mgr-step-08">08. Team Leave Queue &amp; Weekly Calendar</a>
-                <a href="#mgr-step-09">09. Leave Details &amp; Approval Timeline</a>
-                <a href="#mgr-step-10">10. Monthly Team Leave Calendar</a>
+                <a href="#mgr-step-11">11. My Leave &amp; Balance Overview</a>
+                <a href="#mgr-step-12">12. Team Leave Approval Queue</a>
+                <a href="#mgr-step-13">13. Leave Details &amp; Approval Timeline</a>
+                <a href="#mgr-step-14">14. My Team Calendar (Week/Month)</a>
               </div>
             </div>
 
@@ -252,7 +283,9 @@
                 <svg class="emn-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
               </button>
               <div class="emn-sub">
-                <a href="#mgr-step-11">11. Team Travel Approval Queue</a>
+                <a href="#mgr-step-15">15. My Travel Requests</a>
+                <a href="#mgr-step-16">16. Team Travel Approval Queue</a>
+                <a href="#mgr-step-17">17. Travel Details &amp; Allowance</a>
               </div>
             </div>
 
@@ -263,30 +296,43 @@
                 <svg class="emn-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
               </button>
               <div class="emn-sub">
-                <a href="#mgr-step-12">12. Team Claims &amp; Status Filters</a>
-                <a href="#mgr-step-13">13. Policy Findings &amp; AI Receipt Analysis</a>
+                <a href="#mgr-step-18">18. My Claims &amp; Expense Filters</a>
+                <a href="#mgr-step-19">19. Team Claims View</a>
+                <a href="#mgr-step-20">20. Claim Review &amp; AI Receipt Check</a>
               </div>
             </div>
 
             <div class="emn-group is-ready" data-target="#mgr-org">
               <button type="button" class="emn-head" aria-expanded="false">
                 <span class="emn-num">6</span>
-                <span class="emn-title">6. Team Hierarchy</span>
+                <span class="emn-title">6. Profile &amp; Team Hierarchy</span>
                 <svg class="emn-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
               </button>
               <div class="emn-sub">
-                <a href="#mgr-step-14">14. Interactive Reporting Org Chart</a>
+                <a href="#mgr-step-21">21. Manager Profile &amp; Tabs</a>
+                <a href="#mgr-step-22">22. Interactive Team Org Chart</a>
               </div>
             </div>
 
-            <div class="emn-group is-ready" data-target="#mgr-settings">
+            <div class="emn-group is-ready" data-target="#mgr-docs">
               <button type="button" class="emn-head" aria-expanded="false">
                 <span class="emn-num">7</span>
-                <span class="emn-title">7. Notifications &amp; Settings</span>
+                <span class="emn-title">7. Document Center</span>
                 <svg class="emn-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
               </button>
               <div class="emn-sub">
-                <a href="#mgr-step-15">15. Notification &amp; Security Controls</a>
+                <a href="#mgr-step-23">23. Company Document Acknowledgements</a>
+              </div>
+            </div>
+
+            <div class="emn-group is-ready" data-target="#mgr-lifecycle">
+              <button type="button" class="emn-head" aria-expanded="false">
+                <span class="emn-num">8</span>
+                <span class="emn-title">8. Lifecycle &amp; Sign Out</span>
+                <svg class="emn-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <div class="emn-sub">
+                <a href="#mgr-step-24">24. Onboarding, Offboarding &amp; Sign Out</a>
               </div>
             </div>
 
@@ -308,19 +354,19 @@
       <!-- Right Main Content Area -->
       <main class="content-area">
 
-        <!-- Overview Hero -->
-        <section id="mgr-dashboard" class="onboarding-section">
+        <!-- 01. Sign-In & Dashboard -->
+        <section id="mgr-getting-started" class="onboarding-section">
           <div class="section-header-block">
-            <span class="section-pill-tag" style="background: #e0e7ff; color: #4338ca; font-weight: 700;">Role-Based Manual • Manager</span>
+            <span class="section-pill-tag" style="background: #e0e7ff; color: #4338ca; font-weight: 700;">Role-Based Manual &bull; Manager</span>
             <h1 class="section-main-title">SparkX Manager User Manual</h1>
             <p class="section-lead-text">
-              A structured visual reference covering every manager-specific workflow in SparkX—approvals, team leave calendars, business travel queues, expense claim reviews, reporting hierarchy, and notification settings.
+              Comprehensive visual guide for Managers in SparkX &mdash; covering sign-in, personalized dashboard metrics, centralized Inbox approvals (individual &amp; bulk), Team Leave, Team Travel, Team Claims, Team Hierarchy, Document Acknowledgements, and Lifecycle tools.
             </p>
           </div>
 
           <div class="hero-welcome-card" style="margin-bottom: 32px;">
-            <h2 class="hero-welcome-title">Module 01: Manager Home Dashboard</h2>
-            <p class="hero-welcome-desc">Monitor pending team approvals at a glance, spot upcoming leave overlaps, and jump straight into decision workflows from your personalized Manager dashboard.</p>
+            <h2 class="hero-welcome-title">Module 01: Sign-In &amp; Manager Dashboard</h2>
+            <p class="hero-welcome-desc">Authenticate with your Manager credentials (e.g. <code>jan.fredrick@nautilus.test</code>), customize your dashboard KPI cards, and act on pending <code>TEAM</code> and <code>ACK</code> tasks.</p>
           </div>
 
           <div class="g-flow">
@@ -329,72 +375,59 @@
                 <span class="g-step-index">01</span>
                 <div class="g-step-meta-head">
                   <div class="g-step-kicker-row">
-                    <span class="g-step-kicker">Dashboard</span>
-                    <span class="g-step-badge-tag">/ess</span>
+                    <span class="g-step-kicker">Authentication</span>
+                    <span class="g-step-badge-tag">/login</span>
                   </div>
-                  <h3 class="g-step-title">Home Dashboard Overview</h3>
-                  <p class="g-step-lead">The Manager Home Dashboard surfaces your <code>Pending Inbox</code> count, team priority tasks labeled <code>TEAM</code>, and the <code>Team on Leave</code> widget.</p>
+                  <h3 class="g-step-title">Manager Sign-In Page</h3>
+                  <p class="g-step-lead">Sign in to SparkX using your Manager work email and password, Google SSO, or Biometrics.</p>
                 </div>
               </div>
               <figure class="g-shot-top">
-                <div class="g-shot-bar">
-                  <span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span>
-                  <span class="g-path-bar"><span>/ess</span></span>
-                  <span class="g-zoom-btn">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                    Click image to zoom
-                  </span>
-                </div>
-                <div class="mockup-viewport">
-                  <img src="assets/screenshots/manager/01-manager-home-dashboard.png" alt="Manager Home Dashboard" loading="eager">
-                </div>
-                <figcaption class="g-shot-caption">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                  <span>Figure 01: Manager Home Dashboard with Pending Inbox card, TEAM task items, and Team on Leave widget.</span>
-                </figcaption>
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/login?from=%2F</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/manager-hd/01_mgr_login.png" alt="Manager Sign-In Page" loading="eager"></div>
+                <figcaption class="g-shot-caption"><span>Figure 01: SparkX Sign-In screen with Email/Password, Google OAuth, and Biometrics.</span></figcaption>
               </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg><h4 class="g-instruction-heading">Step-by-Step Instructions</h4></div>
+                  <span class="g-instruction-phase-badge">Screen 01 of 24</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Open <code>/login</code> in your browser and enter your Manager <strong>Email</strong> (<code>jan.fredrick@nautilus.test</code>) and <strong>Password</strong>.</span></li>
+                  <li><span class="g-num">2</span><span>Use the eye icon to verify your password, or click <strong>Forgot password?</strong> if you need a reset.</span></li>
+                  <li><span class="g-num">3</span><span>Click <strong>Sign in</strong> (or use <strong>Google</strong> / <strong>Sign in with Biometrics</strong>) to enter your Manager workspace.</span></li>
+                </ul>
+              </div>
             </article>
-          </div>
-        </section>
 
-        <!-- 02. Approvals Inbox -->
-        <section id="mgr-inbox" class="onboarding-section">
-          <div class="section-header-block">
-            <span class="section-pill-tag" style="background: #dbeafe; color: #1d4ed8;">Module 02 • Approvals</span>
-            <h2 class="section-main-title">Approvals Inbox &amp; Decision Workflows</h2>
-            <p class="section-lead-text">Review individual team requests, execute bulk approvals, inspect travel/leave/PHL modals, and audit past decisions in the Archive.</p>
-          </div>
-
-          <div class="g-flow">
             <article class="g-step" id="mgr-step-02">
               <div class="g-step-head">
                 <span class="g-step-index">02</span>
                 <div class="g-step-meta-head">
                   <div class="g-step-kicker-row">
-                    <span class="g-step-kicker">Approvals Inbox</span>
-                    <span class="g-step-badge-tag">/ess/inbox</span>
+                    <span class="g-step-kicker">Dashboard</span>
+                    <span class="g-step-badge-tag">/ess</span>
                   </div>
-                  <h3 class="g-step-title">Centralized Approvals Inbox</h3>
-                  <p class="g-step-lead">Under the <code>To Do</code> tab in Inbox, managers can search, filter by <code>Team Approvals</code>, and click <code>Review</code> on any <code>TEAM</code> item requiring a decision.</p>
+                  <h3 class="g-step-title">Home Dashboard &amp; Priority Tasks</h3>
+                  <p class="g-step-lead">Monitor your <code>Pending Inbox</code> count, <code>TEAM</code> approval items (Travel, Leave Withdrawal, PHL Grant), <code>ACK</code> documents, and <code>Team on Leave</code> widget.</p>
                 </div>
               </div>
               <figure class="g-shot-top">
-                <div class="g-shot-bar">
-                  <span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span>
-                  <span class="g-path-bar"><span>/ess/inbox</span></span>
-                  <span class="g-zoom-btn">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                    Click image to zoom
-                  </span>
-                </div>
-                <div class="mockup-viewport">
-                  <img src="assets/screenshots/manager/02-manager-inbox.png" alt="Manager Approvals Inbox" loading="lazy">
-                </div>
-                <figcaption class="g-shot-caption">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                  <span>Figure 02: Centralized Approvals Inbox under the To Do tab with Team Approvals filter.</span>
-                </figcaption>
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/manager-hd/02_mgr_dashboard.png" alt="Manager Home Dashboard" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 02: Manager Home Dashboard showing Priority Tasks (TEAM &amp; ACK) and Team on Leave.</span></figcaption>
               </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg><h4 class="g-instruction-heading">Step-by-Step Instructions</h4></div>
+                  <span class="g-instruction-phase-badge">Screen 02 of 24</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Check the top <strong>Pending Inbox</strong>, <strong>Leave Balance</strong>, and <strong>Pending Claims</strong> KPI cards, or click <strong>Review Tasks &gt;</strong> to jump straight to Inbox.</span></li>
+                  <li><span class="g-num">2</span><span>Under <strong>Priority Tasks</strong>, click <strong>Review</strong> on any <code>TEAM</code> item (Travel, Leave, PHL Grant) or <strong>Acknowledge</strong> on <code>ACK</code> company documents.</span></li>
+                  <li><span class="g-num">3</span><span>Use the <strong>Team on Leave</strong> dropdown (<code>This Week</code> / <code>This Month</code>) on the right to monitor upcoming team absences.</span></li>
+                </ul>
+              </div>
             </article>
 
             <article class="g-step" id="mgr-step-03">
@@ -402,30 +435,28 @@
                 <span class="g-step-index">03</span>
                 <div class="g-step-meta-head">
                   <div class="g-step-kicker-row">
-                    <span class="g-step-kicker">Batch Actions</span>
-                    <span class="g-step-badge-tag">/ess/inbox</span>
+                    <span class="g-step-kicker">Personalization</span>
+                    <span class="g-step-badge-tag">Customize Metrics</span>
                   </div>
-                  <h3 class="g-step-title">Bulk Selection &amp; Batch Approval</h3>
-                  <p class="g-step-lead">Selecting one or more request checkboxes reveals the bottom bulk action bar, allowing you to <code>Approve</code> or <code>Reject</code> multiple team requests in a single action.</p>
+                  <h3 class="g-step-title">Customize Dashboard Metrics</h3>
+                  <p class="g-step-lead">Reorder, add, or remove up to 4 KPI cards on your Manager Home Dashboard using the <code>Customize Metrics</code> modal.</p>
                 </div>
               </div>
               <figure class="g-shot-top">
-                <div class="g-shot-bar">
-                  <span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span>
-                  <span class="g-path-bar"><span>/ess/inbox</span></span>
-                  <span class="g-zoom-btn">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                    Click image to zoom
-                  </span>
-                </div>
-                <div class="mockup-viewport">
-                  <img src="assets/screenshots/manager/03-inbox-bulk-selection.png" alt="Inbox Bulk Selection" loading="lazy">
-                </div>
-                <figcaption class="g-shot-caption">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                  <span>Figure 03: Multi-select checkboxes and bottom bulk Approve / Reject action bar.</span>
-                </figcaption>
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>Customize Metrics</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/manager-hd/03_mgr_customize_metrics.png" alt="Customize Metrics Modal" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 03: Customize Metrics modal with up/down reordering and metric toggles.</span></figcaption>
               </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg><h4 class="g-instruction-heading">Step-by-Step Instructions</h4></div>
+                  <span class="g-instruction-phase-badge">Screen 03 of 24</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Click <strong>+ ADD METRIC</strong> on the Dashboard to open the <strong>Customize Metrics</strong> modal (max 4 items).</span></li>
+                  <li><span class="g-num">2</span><span>Use the up/down arrows to reorder active cards, or remove/add optional cards, then click <strong>Save Changes</strong>.</span></li>
+                </ul>
+              </div>
             </article>
 
             <article class="g-step" id="mgr-step-04">
@@ -433,61 +464,69 @@
                 <span class="g-step-index">04</span>
                 <div class="g-step-meta-head">
                   <div class="g-step-kicker-row">
-                    <span class="g-step-kicker">Travel Modal</span>
-                    <span class="g-step-badge-tag">/ess/inbox</span>
+                    <span class="g-step-kicker">Assistant &amp; Menu</span>
+                    <span class="g-step-badge-tag">ESS Assistant</span>
                   </div>
-                  <h3 class="g-step-title">Business Travel Approval Modal</h3>
-                  <p class="g-step-lead">Clicking <code>Review</code> on a travel request opens the detail modal displaying trip dates, destination, allowance notes, and the multi-tier approval chain where you can <code>Approve Request</code>, <code>Reject</code>, or <code>Download PDF</code>.</p>
+                  <h3 class="g-step-title">ESS AI Assistant &amp; Sidebar</h3>
+                  <p class="g-step-lead">Access the floating <code>ESS Assistant</code> for natural-language requests, or click the gear icon next to <code>EMPLOYEE SELF-SERVICE</code> to customize sidebar menu order.</p>
                 </div>
               </div>
               <figure class="g-shot-top">
-                <div class="g-shot-bar">
-                  <span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span>
-                  <span class="g-path-bar"><span>/ess/inbox • Travel Modal</span></span>
-                  <span class="g-zoom-btn">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                    Click image to zoom
-                  </span>
-                </div>
-                <div class="mockup-viewport">
-                  <img src="assets/screenshots/manager/04-approval-travel-detail.png" alt="Business Travel Approval Detail Modal" loading="lazy">
-                </div>
-                <figcaption class="g-shot-caption">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                  <span>Figure 04: Business Travel Approval modal with trip details, approval chain, and PDF export.</span>
-                </figcaption>
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>ESS Assistant</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/manager-hd/04_mgr_ai_assistant.png" alt="ESS AI Assistant" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 04: Floating ESS Virtual Assistant with quick prompt chips and attachment support.</span></figcaption>
               </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg><h4 class="g-instruction-heading">Step-by-Step Instructions</h4></div>
+                  <span class="g-instruction-phase-badge">Screen 04 of 24</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Click the purple <strong>Hi Jan! Need help?</strong> pill in the bottom-right corner to open <strong>ESS Assistant</strong>.</span></li>
+                  <li><span class="g-num">2</span><span>Click a quick prompt chip, attach a receipt/document, or type your question in <strong>Ask the ESS assistant&hellip;</strong>.</span></li>
+                  <li><span class="g-num">3</span><span>To reorder or hide sidebar items, click the gear icon beside <code>EMPLOYEE SELF-SERVICE</code> in the left sidebar.</span></li>
+                </ul>
+              </div>
             </article>
+          </div>
+        </section>
 
+        <!-- 02. Approvals Inbox -->
+        <section id="mgr-inbox" class="onboarding-section">
+          <div class="hero-welcome-card" style="margin-bottom: 32px;">
+            <h2 class="hero-welcome-title">Module 02: Centralized Approvals Inbox</h2>
+            <p class="hero-welcome-desc">Review individual team requests, execute bulk approvals, inspect Travel/Leave/PHL review modals, and audit past decisions in the Archive.</p>
+          </div>
+
+          <div class="g-flow">
             <article class="g-step" id="mgr-step-05">
               <div class="g-step-head">
                 <span class="g-step-index">05</span>
                 <div class="g-step-meta-head">
                   <div class="g-step-kicker-row">
-                    <span class="g-step-kicker">Leave Modal</span>
+                    <span class="g-step-kicker">Approvals Inbox</span>
                     <span class="g-step-badge-tag">/ess/inbox</span>
                   </div>
-                  <h3 class="g-step-title">Leave &amp; Withdrawal Review Modal</h3>
-                  <p class="g-step-lead">Opening a leave or leave-withdrawal request from the inbox displays the employee's leave type, period, working days, and request code alongside direct <code>Approve</code> and <code>Reject</code> buttons.</p>
+                  <h3 class="g-step-title">Centralized Approvals Inbox</h3>
+                  <p class="g-step-lead">Filter by <code>Unread</code>, <code>Action Required</code>, or <code>Filter</code> popover (including <code>Team Approvals</code>), and inspect <code>TEAM</code>, <code>ACK</code>, <code>FYI</code>, and <code>NOTICE</code> cards.</p>
                 </div>
               </div>
               <figure class="g-shot-top">
-                <div class="g-shot-bar">
-                  <span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span>
-                  <span class="g-path-bar"><span>/ess/inbox • Leave Modal</span></span>
-                  <span class="g-zoom-btn">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                    Click image to zoom
-                  </span>
-                </div>
-                <div class="mockup-viewport">
-                  <img src="assets/screenshots/manager/05-approval-leave-detail.png" alt="Leave Request Approval Modal" loading="lazy">
-                </div>
-                <figcaption class="g-shot-caption">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                  <span>Figure 05: Leave and Leave-Withdrawal review modal with Approve and Reject actions.</span>
-                </figcaption>
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess/inbox</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/manager-hd/05_mgr_inbox_todo.png" alt="Inbox To Do Tab" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 05: Inbox To Do tab showing Action Required, This Week (FYI), and Earlier (NOTICE) items.</span></figcaption>
               </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg><h4 class="g-instruction-heading">Step-by-Step Instructions</h4></div>
+                  <span class="g-instruction-phase-badge">Screen 05 of 24</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Open <strong>Inbox</strong> from the left sidebar (<code>/ess/inbox</code>) and stay on the <strong>To Do</strong> tab.</span></li>
+                  <li><span class="g-num">2</span><span>Use <strong>Search inbox...</strong>, <strong>Unread</strong>, <strong>Action Required</strong>, or the <strong>Filter</strong> menu to focus on <code>Team Approvals</code>.</span></li>
+                  <li><span class="g-num">3</span><span>Click <strong>Review</strong> on any <code>TEAM</code> card to open its decision modal, or <strong>Mark all read</strong> to clear unread badges.</span></li>
+                </ul>
+              </div>
             </article>
 
             <article class="g-step" id="mgr-step-06">
@@ -495,30 +534,28 @@
                 <span class="g-step-index">06</span>
                 <div class="g-step-meta-head">
                   <div class="g-step-kicker-row">
-                    <span class="g-step-kicker">PHL Grant Modal</span>
-                    <span class="g-step-badge-tag">/ess/inbox</span>
+                    <span class="g-step-kicker">Batch Actions</span>
+                    <span class="g-step-badge-tag">Bulk Approve / Reject</span>
                   </div>
-                  <h3 class="g-step-title">PHL Grant Approval Modal</h3>
-                  <p class="g-step-lead">For Substitute Holiday Leave (PHL) grant requests, the review modal shows the holiday date, weekend days worked, and days granted so you can <code>Approve</code> or <code>Reject</code> the entitlement.</p>
+                  <h3 class="g-step-title">Bulk Selection &amp; Batch Action</h3>
+                  <p class="g-step-lead">Select multiple <code>TEAM</code> items (or click <code>Select all</code>) to reveal the floating bottom bar with <code>Reject (N)</code> and <code>Approve (N)</code>.</p>
                 </div>
               </div>
               <figure class="g-shot-top">
-                <div class="g-shot-bar">
-                  <span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span>
-                  <span class="g-path-bar"><span>/ess/inbox • PHL Grant Modal</span></span>
-                  <span class="g-zoom-btn">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                    Click image to zoom
-                  </span>
-                </div>
-                <div class="mockup-viewport">
-                  <img src="assets/screenshots/manager/06-approval-phl-grant-detail.png" alt="PHL Grant Approval Modal" loading="lazy">
-                </div>
-                <figcaption class="g-shot-caption">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                  <span>Figure 06: PHL Grant approval modal detailing holiday date and entitlement days.</span>
-                </figcaption>
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess/inbox (Bulk)</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/manager-hd/06_mgr_inbox_bulk.png" alt="Inbox Bulk Selection" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 06: Bulk selection checkboxes and bottom Reject / Approve action bar.</span></figcaption>
               </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg><h4 class="g-instruction-heading">Step-by-Step Instructions</h4></div>
+                  <span class="g-instruction-phase-badge">Screen 06 of 24</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Click the circular checkbox on individual <code>TEAM</code> cards, or click <strong>Select all</strong> in the toolbar.</span></li>
+                  <li><span class="g-num">2</span><span>In the floating bottom bar, click <strong>Approve (N)</strong> or <strong>Reject (N)</strong> to process all selected items together, or click <strong>Deselect</strong> / <strong>X</strong> to cancel.</span></li>
+                </ul>
+              </div>
             </article>
 
             <article class="g-step" id="mgr-step-07">
@@ -526,72 +563,58 @@
                 <span class="g-step-index">07</span>
                 <div class="g-step-meta-head">
                   <div class="g-step-kicker-row">
-                    <span class="g-step-kicker">Audit Trail</span>
-                    <span class="g-step-badge-tag">/ess/inbox</span>
+                    <span class="g-step-kicker">Travel Approval</span>
+                    <span class="g-step-badge-tag">TR-MVF1XCZ7YMC</span>
                   </div>
-                  <h3 class="g-step-title">Decision History Archive</h3>
-                  <p class="g-step-lead">The <code>Archive</code> tab maintains a complete audit trail of your past <code>Approved</code> and <code>Rejected</code> team decisions, with a <code>View</code> button to inspect any historical record.</p>
+                  <h3 class="g-step-title">Travel Request Review Modal</h3>
+                  <p class="g-step-lead">Inspect trip type, departure/return dates, business reason, daily allowance notice, and multi-step <code>Approval Progress</code> before deciding.</p>
                 </div>
               </div>
               <figure class="g-shot-top">
-                <div class="g-shot-bar">
-                  <span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span>
-                  <span class="g-path-bar"><span>/ess/inbox • Archive</span></span>
-                  <span class="g-zoom-btn">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                    Click image to zoom
-                  </span>
-                </div>
-                <div class="mockup-viewport">
-                  <img src="assets/screenshots/manager/07-inbox-archive.png" alt="Inbox Archive Action History" loading="lazy">
-                </div>
-                <figcaption class="g-shot-caption">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                  <span>Figure 07: Inbox Archive tab displaying historical Approved and Rejected manager decisions.</span>
-                </figcaption>
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>Travel Request Details</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/manager-hd/07_mgr_modal_travel.png" alt="Travel Request Review Modal" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 07: Travel Request Details modal with Download PDF, Allowance, and Approval Progress.</span></figcaption>
               </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg><h4 class="g-instruction-heading">Step-by-Step Instructions</h4></div>
+                  <span class="g-instruction-phase-badge">Screen 07 of 24</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Click <strong>Review</strong> on a <code>Travel</code> item to open <strong>Travel Request Details</strong>.</span></li>
+                  <li><span class="g-num">2</span><span>Verify <code>Trip Type</code>, <code>Departure</code> / <code>Return</code>, <code>Reason</code>, and any <strong>Allowance</strong> notes (or click <strong>Download PDF</strong> for offline review).</span></li>
+                  <li><span class="g-num">3</span><span>Click <strong>Approve Request</strong> to advance to the next step (e.g. HR BU Review), or <strong>Reject</strong> with a reason.</span></li>
+                </ul>
+              </div>
             </article>
-          </div>
-        </section>
 
-        <!-- 03. Team Leave -->
-        <section id="mgr-leave" class="onboarding-section">
-          <div class="section-header-block">
-            <span class="section-pill-tag" style="background: #dcfce7; color: #15803d;">Module 03 • Team Leave</span>
-            <h2 class="section-main-title">Team Leave &amp; Schedule Calendar</h2>
-            <p class="section-lead-text">Manage subordinate leave queues, inspect approval timelines, and check team schedule overlaps in Week or Month views.</p>
-          </div>
-
-          <div class="g-flow">
             <article class="g-step" id="mgr-step-08">
               <div class="g-step-head">
                 <span class="g-step-index">08</span>
                 <div class="g-step-meta-head">
                   <div class="g-step-kicker-row">
-                    <span class="g-step-kicker">Weekly Schedule</span>
-                    <span class="g-step-badge-tag">/ess/leave</span>
+                    <span class="g-step-kicker">Leave Approval</span>
+                    <span class="g-step-badge-tag">LR-MVEV2THK</span>
                   </div>
-                  <h3 class="g-step-title">Team Leave Queue &amp; Weekly Calendar</h3>
-                  <p class="g-step-lead">Switching to the <code>Team Leave</code> tab displays your direct reports' leave approval queue above the interactive <code>My Team Calendar</code> in <code>Week</code> view for spotting schedule overlaps.</p>
+                  <h3 class="g-step-title">Leave Withdrawal Review Modal</h3>
+                  <p class="g-step-lead">Review employee leave or leave-withdrawal requests showing <code>Leave Type</code>, <code>Period</code>, <code>Working Days</code>, and <code>Request Code</code>.</p>
                 </div>
               </div>
               <figure class="g-shot-top">
-                <div class="g-shot-bar">
-                  <span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span>
-                  <span class="g-path-bar"><span>/ess/leave • Team Leave</span></span>
-                  <span class="g-zoom-btn">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                    Click image to zoom
-                  </span>
-                </div>
-                <div class="mockup-viewport">
-                  <img src="assets/screenshots/manager/08-team-leave.png" alt="Team Leave Queue and Weekly Calendar" loading="lazy">
-                </div>
-                <figcaption class="g-shot-caption">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                  <span>Figure 08: Team Leave queue and weekly My Team Calendar view.</span>
-                </figcaption>
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>Review Request &mdash; Leave</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/manager-hd/08_mgr_modal_leave.png" alt="Leave Withdrawal Review Modal" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 08: Leave Withdrawal Review modal with Period, Working Days, and Reject / Approve buttons.</span></figcaption>
               </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg><h4 class="g-instruction-heading">Step-by-Step Instructions</h4></div>
+                  <span class="g-instruction-phase-badge">Screen 08 of 24</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Click <strong>Review</strong> on a <code>Leave</code> or <code>Withdrawal</code> card in Inbox.</span></li>
+                  <li><span class="g-num">2</span><span>Confirm the employee name, <code>Period</code>, and <code>Working Days</code>, then click <strong>Approve</strong> or <strong>Reject</strong>.</span></li>
+                </ul>
+              </div>
             </article>
 
             <article class="g-step" id="mgr-step-09">
@@ -599,30 +622,28 @@
                 <span class="g-step-index">09</span>
                 <div class="g-step-meta-head">
                   <div class="g-step-kicker-row">
-                    <span class="g-step-kicker">Details Modal</span>
-                    <span class="g-step-badge-tag">/ess/leave</span>
+                    <span class="g-step-kicker">PHL Grant</span>
+                    <span class="g-step-badge-tag">PHL-80919</span>
                   </div>
-                  <h3 class="g-step-title">Leave Details &amp; Approval Timeline</h3>
-                  <p class="g-step-lead">Clicking <code>Details</code> on a team leave row opens the full approval timeline with prior comments and lets you <code>Approve Withdrawal</code> or <code>Reject</code> pending changes.</p>
+                  <h3 class="g-step-title">PHL Grant Review Modal</h3>
+                  <p class="g-step-lead">Verify Substitute Holiday Leave (PHL) grant requests including <code>Holiday Date</code>, <code>Days Granted</code>, and <code>Days Worked</code>.</p>
                 </div>
               </div>
               <figure class="g-shot-top">
-                <div class="g-shot-bar">
-                  <span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span>
-                  <span class="g-path-bar"><span>/ess/leave • Details Modal</span></span>
-                  <span class="g-zoom-btn">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                    Click image to zoom
-                  </span>
-                </div>
-                <div class="mockup-viewport">
-                  <img src="assets/screenshots/manager/09-team-leave-details.png" alt="Team Leave Request Details Modal" loading="lazy">
-                </div>
-                <figcaption class="g-shot-caption">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                  <span>Figure 09: Team Leave Details modal showing approval timeline and withdrawal controls.</span>
-                </figcaption>
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>Review Request &mdash; PHL Grant</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/manager-hd/09_mgr_modal_phl.png" alt="PHL Grant Review Modal" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 09: Substitute Holiday Leave Grant review modal showing Holiday Date and Days Granted.</span></figcaption>
               </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg><h4 class="g-instruction-heading">Step-by-Step Instructions</h4></div>
+                  <span class="g-instruction-phase-badge">Screen 09 of 24</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Click <strong>Review</strong> on a <code>PHL GRANT</code> item in Inbox.</span></li>
+                  <li><span class="g-num">2</span><span>Verify <code>Holiday Date</code> and <code>Days Worked</code> vs. <code>Days Granted</code>, then click <strong>Approve</strong> or <strong>Reject</strong>.</span></li>
+                </ul>
+              </div>
             </article>
 
             <article class="g-step" id="mgr-step-10">
@@ -630,40 +651,37 @@
                 <span class="g-step-index">10</span>
                 <div class="g-step-meta-head">
                   <div class="g-step-kicker-row">
-                    <span class="g-step-kicker">Month View</span>
-                    <span class="g-step-badge-tag">/ess/leave</span>
+                    <span class="g-step-kicker">Audit History</span>
+                    <span class="g-step-badge-tag">Archive Tab</span>
                   </div>
-                  <h3 class="g-step-title">Monthly Team Leave Calendar</h3>
-                  <p class="g-step-lead">Toggling <code>My Team Calendar</code> to <code>Month</code> view provides a full-month overview of approved leaves, business trips, and holidays across every direct report.</p>
+                  <h3 class="g-step-title">Decision History Archive</h3>
+                  <p class="g-step-lead">Review all previously approved or rejected team requests under the <code>Archive</code> tab's <code>Action History</code> list.</p>
                 </div>
               </div>
               <figure class="g-shot-top">
-                <div class="g-shot-bar">
-                  <span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span>
-                  <span class="g-path-bar"><span>/ess/leave • Month View</span></span>
-                  <span class="g-zoom-btn">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                    Click image to zoom
-                  </span>
-                </div>
-                <div class="mockup-viewport">
-                  <img src="assets/screenshots/manager/10-team-leave-calendar-month.png" alt="Team Leave Monthly Calendar" loading="lazy">
-                </div>
-                <figcaption class="g-shot-caption">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                  <span>Figure 10: Monthly My Team Calendar overview across all direct reports.</span>
-                </figcaption>
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess/inbox (Archive)</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/manager-hd/10_mgr_inbox_archive.png" alt="Inbox Archive Tab" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 10: Inbox Archive tab listing past Leave and Travel approval decisions.</span></figcaption>
               </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg><h4 class="g-instruction-heading">Step-by-Step Instructions</h4></div>
+                  <span class="g-instruction-phase-badge">Screen 10 of 24</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Switch to the <strong>Archive</strong> tab in Inbox to view <strong>Action History</strong>.</span></li>
+                  <li><span class="g-num">2</span><span>Click <strong>View</strong> on any historical Leave or Travel entry to inspect its full decision record.</span></li>
+                </ul>
+              </div>
             </article>
           </div>
         </section>
 
-        <!-- 04. Team Travel -->
-        <section id="mgr-travel" class="onboarding-section">
-          <div class="section-header-block">
-            <span class="section-pill-tag" style="background: #ede9fe; color: #7c3aed;">Module 04 • Team Travel</span>
-            <h2 class="section-main-title">Team Business Travel</h2>
-            <p class="section-lead-text">Filter subordinate business travel requests by year and status, and approve or reject trips inline.</p>
+        <!-- 03. Team Leave -->
+        <section id="mgr-leave" class="onboarding-section">
+          <div class="hero-welcome-card" style="margin-bottom: 32px;">
+            <h2 class="hero-welcome-title">Module 03: Team Leave Management</h2>
+            <p class="hero-welcome-desc">Manage your own leave in <code>My Leave</code>, then switch to <code>Team Leave</code> to process team approvals and check weekly/monthly overlap calendars.</p>
           </div>
 
           <div class="g-flow">
@@ -672,72 +690,57 @@
                 <span class="g-step-index">11</span>
                 <div class="g-step-meta-head">
                   <div class="g-step-kicker-row">
-                    <span class="g-step-kicker">Travel Queue</span>
-                    <span class="g-step-badge-tag">/ess/travel</span>
+                    <span class="g-step-kicker">Leave Management</span>
+                    <span class="g-step-badge-tag">/ess/leave</span>
                   </div>
-                  <h3 class="g-step-title">Team Travel Approval Queue</h3>
-                  <p class="g-step-lead">The <code>Team Travel</code> tab lists all subordinate business trips with year and status filters, offering inline approve/reject icons for <code>Pending Approval</code> rows and <code>Details</code> for completed trips.</p>
+                  <h3 class="g-step-title">My Leave &amp; Balance Overview</h3>
+                  <p class="g-step-lead">View your <code>Available Leave</code>, <code>Pending Requests</code>, <code>Leave Taken</code>, <code>Leave History</code>, and <code>Company Calendar</code>, or submit <code>+ Request Time Off</code>.</p>
                 </div>
               </div>
               <figure class="g-shot-top">
-                <div class="g-shot-bar">
-                  <span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span>
-                  <span class="g-path-bar"><span>/ess/travel • Team Travel</span></span>
-                  <span class="g-zoom-btn">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                    Click image to zoom
-                  </span>
-                </div>
-                <div class="mockup-viewport">
-                  <img src="assets/screenshots/manager/11-team-travel.png" alt="Team Business Travel Queue" loading="lazy">
-                </div>
-                <figcaption class="g-shot-caption">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                  <span>Figure 11: Team Travel approval queue with status filters and inline action buttons.</span>
-                </figcaption>
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess/leave (My Leave)</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/manager-hd/11_mgr_my_leave.png" alt="My Leave Overview" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 11: Leave Management My Leave tab with balance cards and Company Calendar.</span></figcaption>
               </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg><h4 class="g-instruction-heading">Step-by-Step Instructions</h4></div>
+                  <span class="g-instruction-phase-badge">Screen 11 of 24</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Open <strong>Leave Request</strong> from the left sidebar (<code>/ess/leave</code>).</span></li>
+                  <li><span class="g-num">2</span><span>Click <strong>Details</strong> on <code>Available Leave</code> to inspect yearly entitlements, or <strong>+ Request Time Off</strong> to submit your own leave.</span></li>
+                </ul>
+              </div>
             </article>
-          </div>
-        </section>
 
-        <!-- 05. Team Claims -->
-        <section id="mgr-claims" class="onboarding-section">
-          <div class="section-header-block">
-            <span class="section-pill-tag" style="background: #fef3c7; color: #b45309;">Module 05 • Team Claims</span>
-            <h2 class="section-main-title">Team Claim &amp; Expenses</h2>
-            <p class="section-lead-text">Filter team expense claims and review automated policy findings alongside AI Receipt Analysis.</p>
-          </div>
-
-          <div class="g-flow">
             <article class="g-step" id="mgr-step-12">
               <div class="g-step-head">
                 <span class="g-step-index">12</span>
                 <div class="g-step-meta-head">
                   <div class="g-step-kicker-row">
-                    <span class="g-step-kicker">Team View</span>
-                    <span class="g-step-badge-tag">/ess/claim-expenses</span>
+                    <span class="g-step-kicker">Team Queue</span>
+                    <span class="g-step-badge-tag">Team Leave</span>
                   </div>
-                  <h3 class="g-step-title">Team Claims &amp; Status Filters</h3>
-                  <p class="g-step-lead">Under <code>Team View</code> in Claim &amp; Expenses, managers can filter team reimbursements by status (<code>Pending</code>, <code>Approved</code>, <code>Rejected</code>, <code>Paid</code>) and click any row to inspect it.</p>
+                  <h3 class="g-step-title">Team Leave Approval Queue</h3>
+                  <p class="g-step-lead">Switch to the <code>Team Leave</code> tab to review all team leave and withdrawal requests with inline <code>Approve Withdrawal</code> / <code>Reject Withdrawal</code> / <code>Details</code> actions.</p>
                 </div>
               </div>
               <figure class="g-shot-top">
-                <div class="g-shot-bar">
-                  <span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span>
-                  <span class="g-path-bar"><span>/ess/claim-expenses • Team View</span></span>
-                  <span class="g-zoom-btn">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                    Click image to zoom
-                  </span>
-                </div>
-                <div class="mockup-viewport">
-                  <img src="assets/screenshots/manager/12-team-claims.png" alt="Team Claims and Expenses Queue" loading="lazy">
-                </div>
-                <figcaption class="g-shot-caption">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                  <span>Figure 12: Team View in Claim &amp; Expenses with status filters.</span>
-                </figcaption>
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess/leave (Team Leave)</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/manager-hd/12_mgr_team_leave_queue.png" alt="Team Leave Queue" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 12: Team Leave Approval Requests table with inline withdrawal and detail actions.</span></figcaption>
               </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg><h4 class="g-instruction-heading">Step-by-Step Instructions</h4></div>
+                  <span class="g-instruction-phase-badge">Screen 12 of 24</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Click the <strong>Team Leave</strong> tab at the top of Leave Management.</span></li>
+                  <li><span class="g-num">2</span><span>Use inline <strong>Approve Withdrawal</strong> / <strong>Reject Withdrawal</strong> buttons for quick decisions, or click <strong>Details</strong> to inspect the full timeline.</span></li>
+                </ul>
+              </div>
             </article>
 
             <article class="g-step" id="mgr-step-13">
@@ -745,82 +748,66 @@
                 <span class="g-step-index">13</span>
                 <div class="g-step-meta-head">
                   <div class="g-step-kicker-row">
-                    <span class="g-step-kicker">AI Receipt Review</span>
-                    <span class="g-step-badge-tag">/ess/claim-expenses</span>
+                    <span class="g-step-kicker">Approval Timeline</span>
+                    <span class="g-step-badge-tag">Details Modal</span>
                   </div>
-                  <h3 class="g-step-title">Policy Findings &amp; AI Receipt Analysis</h3>
-                  <p class="g-step-lead">Clicking a team claim opens the <code>Review Request</code> modal showing expense details, automated <code>Policy findings</code>, and <code>AI Receipt Analysis</code> comparing claimed values against the uploaded receipt.</p>
+                  <h3 class="g-step-title">Leave Details &amp; Approval Timeline</h3>
+                  <p class="g-step-lead">Inspect <code>Start Date</code>, <code>End Date</code>, <code>Total Days</code>, <code>Reason</code>, and step-by-step <code>Approval Progress</code> inside the <code>Leave Request Details</code> modal.</p>
                 </div>
               </div>
               <figure class="g-shot-top">
-                <div class="g-shot-bar">
-                  <span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span>
-                  <span class="g-path-bar"><span>/ess/claim-expenses • Review Modal</span></span>
-                  <span class="g-zoom-btn">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                    Click image to zoom
-                  </span>
-                </div>
-                <div class="mockup-viewport">
-                  <img src="assets/screenshots/manager/13-team-claim-detail.png" alt="Team Claim Review Modal with AI Receipt Analysis" loading="lazy">
-                </div>
-                <figcaption class="g-shot-caption">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                  <span>Figure 13: Review Request modal showing Policy findings and AI Receipt Analysis.</span>
-                </figcaption>
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>Leave Request Details</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/manager-hd/13_mgr_team_leave_details.png" alt="Leave Request Details Modal" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 13: Leave Request Details modal showing Approval Progress and Line Manager Review status.</span></figcaption>
               </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg><h4 class="g-instruction-heading">Step-by-Step Instructions</h4></div>
+                  <span class="g-instruction-phase-badge">Screen 13 of 24</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Click <strong>Details</strong> on any row in the <code>Approval Requests</code> table.</span></li>
+                  <li><span class="g-num">2</span><span>Review the dates, reason, and <strong>Approval Progress</strong> trail, then close or act on pending items.</span></li>
+                </ul>
+              </div>
             </article>
-          </div>
-        </section>
 
-        <!-- 06. Team Hierarchy -->
-        <section id="mgr-org" class="onboarding-section">
-          <div class="section-header-block">
-            <span class="section-pill-tag" style="background: #e0e7ff; color: #4338ca;">Module 06 • Team Hierarchy</span>
-            <h2 class="section-main-title">Team Reporting Hierarchy</h2>
-            <p class="section-lead-text">Visualize your reporting lines, supervisor, and direct reports in an interactive organization chart.</p>
-          </div>
-
-          <div class="g-flow">
             <article class="g-step" id="mgr-step-14">
               <div class="g-step-head">
                 <span class="g-step-index">14</span>
                 <div class="g-step-meta-head">
                   <div class="g-step-kicker-row">
-                    <span class="g-step-kicker">Org Chart</span>
-                    <span class="g-step-badge-tag">/ess/profile</span>
+                    <span class="g-step-kicker">Team Calendar</span>
+                    <span class="g-step-badge-tag">Week / Month</span>
                   </div>
-                  <h3 class="g-step-title">Interactive Reporting Org Chart</h3>
-                  <p class="g-step-lead">The <code>Organization</code> tab in My Profile renders an interactive org chart of your supervisor, your position, and your direct reports with zoom and fit-to-view controls.</p>
+                  <h3 class="g-step-title">My Team Calendar</h3>
+                  <p class="g-step-lead">Spot leave and business-trip overlaps across direct reports using the <code>week</code> and <code>month</code> calendar views with color-coded legends.</p>
                 </div>
               </div>
               <figure class="g-shot-top">
-                <div class="g-shot-bar">
-                  <span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span>
-                  <span class="g-path-bar"><span>/ess/profile • Organization</span></span>
-                  <span class="g-zoom-btn">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                    Click image to zoom
-                  </span>
-                </div>
-                <div class="mockup-viewport">
-                  <img src="assets/screenshots/manager/14-profile-organization.png" alt="Team Organization Chart" loading="lazy">
-                </div>
-                <figcaption class="g-shot-caption">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                  <span>Figure 14: Interactive Organization chart under My Profile.</span>
-                </figcaption>
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>My Team Calendar</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/manager-hd/14_mgr_team_leave_calendar.png" alt="My Team Calendar" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 14: My Team Calendar with week/month switcher and leave/holiday legend.</span></figcaption>
               </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg><h4 class="g-instruction-heading">Step-by-Step Instructions</h4></div>
+                  <span class="g-instruction-phase-badge">Screen 14 of 24</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Scroll down on the <strong>Team Leave</strong> tab to <strong>My Team Calendar</strong>.</span></li>
+                  <li><span class="g-num">2</span><span>Toggle between <strong>week</strong> and <strong>month</strong> views and use <code>&lt;</code>, <strong>Today</strong>, and <code>&gt;</code> to check team coverage before approving leave.</span></li>
+                </ul>
+              </div>
             </article>
           </div>
         </section>
 
-        <!-- 07. Notifications & Settings -->
-        <section id="mgr-settings" class="onboarding-section">
-          <div class="section-header-block">
-            <span class="section-pill-tag" style="background: #f1f5f9; color: #334155;">Module 07 • Settings</span>
-            <h2 class="section-main-title">Manager Notifications &amp; Account Settings</h2>
-            <p class="section-lead-text">Configure approval alert preferences, organization switching, password updates, and biometric login.</p>
+        <!-- 04. Team Travel -->
+        <section id="mgr-travel" class="onboarding-section">
+          <div class="hero-welcome-card" style="margin-bottom: 32px;">
+            <h2 class="hero-welcome-title">Module 04: Team Business Travel</h2>
+            <p class="hero-welcome-desc">Track your personal business trips in <code>My Travel</code> and approve subordinate travel requests in <code>Team Travel</code>.</p>
           </div>
 
           <div class="g-flow">
@@ -829,35 +816,330 @@
                 <span class="g-step-index">15</span>
                 <div class="g-step-meta-head">
                   <div class="g-step-kicker-row">
-                    <span class="g-step-kicker">Account Settings</span>
-                    <span class="g-step-badge-tag">/ess/account</span>
+                    <span class="g-step-kicker">Business Travel</span>
+                    <span class="g-step-badge-tag">/ess/travel</span>
                   </div>
-                  <h3 class="g-step-title">Notification &amp; Security Controls</h3>
-                  <p class="g-step-lead">In Account Settings (<code>/ess/account</code>), managers can toggle <code>Enable Notifications</code> for approval alerts and reminders, switch organizations, or manage password and biometric sign-in.</p>
+                  <h3 class="g-step-title">My Travel Requests</h3>
+                  <p class="g-step-lead">Monitor your own trips (<code>Total Trips</code>, <code>Pending</code>, <code>Approved</code>, <code>Declared</code>), filter by year/status, or create <code>+ New Travel Request</code>.</p>
                 </div>
               </div>
               <figure class="g-shot-top">
-                <div class="g-shot-bar">
-                  <span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span>
-                  <span class="g-path-bar"><span>/ess/account</span></span>
-                  <span class="g-zoom-btn">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                    Click image to zoom
-                  </span>
-                </div>
-                <div class="mockup-viewport">
-                  <img src="assets/screenshots/manager/15-manager-settings.png" alt="Manager Account and Notification Settings" loading="lazy">
-                </div>
-                <figcaption class="g-shot-caption">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                  <span>Figure 15: Account Settings with notification toggles and security controls.</span>
-                </figcaption>
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess/travel (My Travel)</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/manager-hd/15_mgr_my_travel.png" alt="My Travel Requests" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 15: Business Travel My Travel tab with trip summary cards and filters.</span></figcaption>
               </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg><h4 class="g-instruction-heading">Step-by-Step Instructions</h4></div>
+                  <span class="g-instruction-phase-badge">Screen 15 of 24</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Open <strong>Travel Request</strong> from the left sidebar (<code>/ess/travel</code>).</span></li>
+                  <li><span class="g-num">2</span><span>Click <strong>+ New Travel Request</strong> to submit a personal trip (with destination, dates, travel facilities, and supporting documents).</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="mgr-step-16">
+              <div class="g-step-head">
+                <span class="g-step-index">16</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Team Queue</span>
+                    <span class="g-step-badge-tag">Team Travel</span>
+                  </div>
+                  <h3 class="g-step-title">Team Travel Approval Queue</h3>
+                  <p class="g-step-lead">Switch to <code>Team Travel</code> to view all team trips, see items <code>Waiting on Jan Fredrick</code>, and use quick approve/reject or <code>Details</code> actions.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess/travel (Team Travel)</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/manager-hd/16_mgr_team_travel_queue.png" alt="Team Travel Queue" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 16: Team Approval Queue under Team Travel with year/status filters.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg><h4 class="g-instruction-heading">Step-by-Step Instructions</h4></div>
+                  <span class="g-instruction-phase-badge">Screen 16 of 24</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Click the <strong>Team Travel</strong> tab and filter by year or status (<code>Pending</code>, <code>Approved</code>, <code>Declared</code>, etc.).</span></li>
+                  <li><span class="g-num">2</span><span>Use the quick check/cross icons on pending rows or click <strong>Details</strong> (or anywhere on a row) to open the full modal.</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="mgr-step-17">
+              <div class="g-step-head">
+                <span class="g-step-index">17</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Travel Details</span>
+                    <span class="g-step-badge-tag">Allowance &amp; PDF</span>
+                  </div>
+                  <h3 class="g-step-title">Travel Details &amp; Allowance</h3>
+                  <p class="g-step-lead">Inspect full travel specifications, calculated <code>Allowance</code>, <code>Travel Facilities</code>, <code>Approval Progress</code>, and <code>Download PDF</code>.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>Travel Request Details</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/manager-hd/17_mgr_team_travel_details.png" alt="Team Travel Details Modal" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 17: Team Travel Request Details modal with PDF export and Approval Progress.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg><h4 class="g-instruction-heading">Step-by-Step Instructions</h4></div>
+                  <span class="g-instruction-phase-badge">Screen 17 of 24</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Review trip destination, dates, <strong>Allowance</strong>, and <strong>Approval Progress</strong>.</span></li>
+                  <li><span class="g-num">2</span><span>Click <strong>Download PDF</strong> to save an official travel summary, or close the modal when done.</span></li>
+                </ul>
+              </div>
             </article>
           </div>
+        </section>
 
-          <div style="text-align: center; padding: 36px 0 60px 0;">
-            <a href="index.html" class="portal-btn is-outline" style="display: inline-flex; align-items: center; gap: 8px; font-weight: 700; text-decoration: none; padding: 12px 24px;">&larr; Back to Documentation Portal</a>
+        <!-- 05. Team Claims -->
+        <section id="mgr-claims" class="onboarding-section">
+          <div class="hero-welcome-card" style="margin-bottom: 32px;">
+            <h2 class="hero-welcome-title">Module 05: Team Claims &amp; Expenses</h2>
+            <p class="hero-welcome-desc">Track your own reimbursements in <code>My Claims</code> and audit team expense claims with line-item breakdowns and AI Receipt Analysis in <code>Team View</code>.</p>
+          </div>
+
+          <div class="g-flow">
+            <article class="g-step" id="mgr-step-18">
+              <div class="g-step-head">
+                <span class="g-step-index">18</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Claim &amp; Expenses</span>
+                    <span class="g-step-badge-tag">/ess/claim-expenses</span>
+                  </div>
+                  <h3 class="g-step-title">My Claims &amp; Expense Filters</h3>
+                  <p class="g-step-lead">Monitor <code>This Month Claims</code>, <code>Pending Approval</code>, <code>Total Reimbursed</code>, and <code>Rejected</code>, filter by status pills, or submit <code>+ New Claim</code>.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess/claim-expenses (My Claims)</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/manager-hd/18_mgr_my_claims.png" alt="My Claims Overview" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 18: Claim &amp; Expenses My Claims tab with summary cards and status pills.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg><h4 class="g-instruction-heading">Step-by-Step Instructions</h4></div>
+                  <span class="g-instruction-phase-badge">Screen 18 of 24</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Open <strong>Claim &amp; Expenses</strong> from the left sidebar (<code>/ess/claim-expenses</code>).</span></li>
+                  <li><span class="g-num">2</span><span>Use the status pills (<code>All</code>, <code>Draft</code>, <code>Pending</code>, <code>Approved</code>, <code>Rejected</code>, <code>Paid</code>) or click <strong>+ New Claim</strong> to submit an expense with receipt upload.</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="mgr-step-19">
+              <div class="g-step-head">
+                <span class="g-step-index">19</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Team Claims</span>
+                    <span class="g-step-badge-tag">Team View</span>
+                  </div>
+                  <h3 class="g-step-title">Team Claims View</h3>
+                  <p class="g-step-lead">Switch to <code>Team View</code> to inspect all direct-report claims across <code>Pending</code>, <code>Approved</code>, <code>Rejected</code>, and <code>Paid</code> statuses.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess/claim-expenses (Team View)</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/manager-hd/19_mgr_team_claims.png" alt="Team Claims View" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 19: Team View tab listing subordinate expense claims by Employee, Category, and Amount.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg><h4 class="g-instruction-heading">Step-by-Step Instructions</h4></div>
+                  <span class="g-instruction-phase-badge">Screen 19 of 24</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Click the <strong>Team View</strong> tab at the top of Claim &amp; Expenses.</span></li>
+                  <li><span class="g-num">2</span><span>Filter by status pill and click any claim row to open its detailed review modal.</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="mgr-step-20">
+              <div class="g-step-head">
+                <span class="g-step-index">20</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Audit &amp; AI</span>
+                    <span class="g-step-badge-tag">AI Receipt Analysis</span>
+                  </div>
+                  <h3 class="g-step-title">Claim Review &amp; AI Receipt Check</h3>
+                  <p class="g-step-lead">Inspect <code>Expense Details</code>, line items (<code>Item</code>, <code>Category</code>, <code>Qty</code>, <code>Amount</code>), and field-by-field <code>AI Receipt Analysis</code> comparisons.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>Review Request &mdash; Expense</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/manager-hd/20_mgr_team_claim_review.png" alt="Team Claim Review Modal" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 20: Expense Claim review modal showing Merchant, line items, and AI Receipt Analysis.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg><h4 class="g-instruction-heading">Step-by-Step Instructions</h4></div>
+                  <span class="g-instruction-phase-badge">Screen 20 of 24</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Click any row in <strong>Team View</strong> to open the <strong>Review Request</strong> modal.</span></li>
+                  <li><span class="g-num">2</span><span>Verify <code>Merchant</code>, <code>Receipt No.</code>, line items, and <strong>AI Receipt Analysis</strong> (checks for date, vendor, or amount discrepancies) before approving or rejecting.</span></li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- 06. Profile & Team Hierarchy -->
+        <section id="mgr-org" class="onboarding-section">
+          <div class="hero-welcome-card" style="margin-bottom: 32px;">
+            <h2 class="hero-welcome-title">Module 06: Profile &amp; Team Hierarchy</h2>
+            <p class="hero-welcome-desc">Manage your personal employment record across 7 profile tabs and visualize your reporting chain under <code>Organization</code>.</p>
+          </div>
+
+          <div class="g-flow">
+            <article class="g-step" id="mgr-step-21">
+              <div class="g-step-head">
+                <span class="g-step-index">21</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">My Profile</span>
+                    <span class="g-step-badge-tag">/ess/profile</span>
+                  </div>
+                  <h3 class="g-step-title">Manager Profile &amp; Tabs</h3>
+                  <p class="g-step-lead">Access <code>Personal</code>, <code>Family</code>, <code>Education &amp; Awards</code>, <code>Career</code>, <code>Organization</code>, <code>Projects</code>, and <code>Documents</code> (e.g. uploaded Passport).</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess/profile</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/manager-hd/21_mgr_profile.png" alt="Manager Profile" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 21: Manager Profile Employment Details and 7 profile tabs.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg><h4 class="g-instruction-heading">Step-by-Step Instructions</h4></div>
+                  <span class="g-instruction-phase-badge">Screen 21 of 24</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Open <strong>My Profile</strong> from the left sidebar (<code>/ess/profile</code>).</span></li>
+                  <li><span class="g-num">2</span><span>Review your <code>Employee ID</code>, <code>Company</code>, and <code>Direct Supervisor</code>, or click <strong>Edit</strong> on editable sections (profile updates route to HR for approval).</span></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="g-step" id="mgr-step-22">
+              <div class="g-step-head">
+                <span class="g-step-index">22</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Reporting Chart</span>
+                    <span class="g-step-badge-tag">Organization Tab</span>
+                  </div>
+                  <h3 class="g-step-title">Interactive Team Org Chart</h3>
+                  <p class="g-step-lead">Visualize your <code>SUPERVISOR</code> (Phillip Yen), your node (<code>YOU</code>), and your direct reports (<code>Team</code> &mdash; Johannes Lim) with zoom and <code>Center</code> controls.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess/profile (Organization)</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/manager-hd/22_mgr_org_chart.png" alt="Interactive Team Org Chart" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 22: Interactive Organization tab showing Supervisor, You, and Team reporting hierarchy.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg><h4 class="g-instruction-heading">Step-by-Step Instructions</h4></div>
+                  <span class="g-instruction-phase-badge">Screen 22 of 24</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Click the <strong>Organization</strong> tab inside <strong>My Profile</strong>.</span></li>
+                  <li><span class="g-num">2</span><span>Use the zoom controls (<code>-</code>, <code>100%</code>, <code>+</code>) and <strong>Center</strong> button to inspect your supervisor and direct reports.</span></li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- 07. Document Center -->
+        <section id="mgr-docs" class="onboarding-section">
+          <div class="hero-welcome-card" style="margin-bottom: 32px;">
+            <h2 class="hero-welcome-title">Module 07: Document Center &amp; Acknowledgements</h2>
+            <p class="hero-welcome-desc">Read and acknowledge distributed company policies, upload personal documents, or request HR letters.</p>
+          </div>
+
+          <div class="g-flow">
+            <article class="g-step" id="mgr-step-23">
+              <div class="g-step-head">
+                <span class="g-step-index">23</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Document Center</span>
+                    <span class="g-step-badge-tag">/ess/documents</span>
+                  </div>
+                  <h3 class="g-step-title">Company Document Acknowledgements</h3>
+                  <p class="g-step-lead">Filter <code>Company Documents</code> by acknowledgement status, open PDFs with <code>View &amp; Acknowledge</code>, or switch to <code>My Documents</code> / <code>Request Document</code>.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess/documents</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/manager-hd/23_mgr_documents.png" alt="Document Center" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 23: Document Center showing pending acknowledgement banner and Company Documents.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg><h4 class="g-instruction-heading">Step-by-Step Instructions</h4></div>
+                  <span class="g-instruction-phase-badge">Screen 23 of 24</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Open <strong>Document Center</strong> from the left sidebar (<code>/ess/documents</code>).</span></li>
+                  <li><span class="g-num">2</span><span>Click <strong>View &amp; Acknowledge</strong> on any <code>Needs Acknowledgement</code> policy, scroll to the bottom of the PDF, check the confirmation box, and click <strong>Confirm</strong>.</span></li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- 08. Lifecycle & Sign Out -->
+        <section id="mgr-lifecycle" class="onboarding-section">
+          <div class="hero-welcome-card" style="margin-bottom: 32px;">
+            <h2 class="hero-welcome-title">Module 08: Lifecycle Hubs &amp; Sign Out</h2>
+            <p class="hero-welcome-desc">Track Onboarding checklists or initiate the 5-step Offboarding workflow, and securely sign out from the sidebar footer.</p>
+          </div>
+
+          <div class="g-flow">
+            <article class="g-step" id="mgr-step-24">
+              <div class="g-step-head">
+                <span class="g-step-index">24</span>
+                <div class="g-step-meta-head">
+                  <div class="g-step-kicker-row">
+                    <span class="g-step-kicker">Lifecycle &amp; Account</span>
+                    <span class="g-step-badge-tag">/ess/offboard</span>
+                  </div>
+                  <h3 class="g-step-title">Onboarding, Offboarding &amp; Sign Out</h3>
+                  <p class="g-step-lead">Access <code>Onboarding</code> (4-tab checklist/assets/training/buddy) and <code>Offboarding</code> (5-step separation tracker), or click your <code>Jan Fredrick (Manager)</code> footer card to <code>Sign out</code>.</p>
+                </div>
+              </div>
+              <figure class="g-shot-top">
+                <div class="g-shot-bar"><span class="g-dots"><span class="g-dot r"></span><span class="g-dot y"></span><span class="g-dot g"></span></span><span class="g-path-bar"><span>/ess/offboard</span></span><span class="g-zoom-btn">Click image to zoom</span></div>
+                <div class="mockup-viewport"><img src="assets/screenshots/manager-hd/24_mgr_offboarding.png" alt="Offboarding Hub" loading="lazy"></div>
+                <figcaption class="g-shot-caption"><span>Figure 24: Offboarding Hub 5-step tracker and sidebar footer Manager profile menu.</span></figcaption>
+              </figure>
+              <div class="g-step-instructions">
+                <div class="g-instruction-header">
+                  <div class="g-instruction-title-group"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg><h4 class="g-instruction-heading">Step-by-Step Instructions</h4></div>
+                  <span class="g-instruction-phase-badge">Screen 24 of 24</span>
+                </div>
+                <ul class="g-list">
+                  <li><span class="g-num">1</span><span>Open <strong>Onboarding</strong> (<code>/ess/onboard</code>) or <strong>Offboarding</strong> (<code>/ess/offboard</code>) from the left sidebar to track lifecycle tasks.</span></li>
+                  <li><span class="g-num">2</span><span>When finished with your session, click your <strong>Jan Fredrick &bull; Manager</strong> card in the bottom-left sidebar and select <strong>Sign out</strong>.</span></li>
+                </ul>
+              </div>
+            </article>
           </div>
         </section>
 
@@ -871,7 +1153,7 @@
       <img id="lightboxImg" class="lightbox-image" src="" alt="Screenshot Full View">
       <div class="lightbox-caption-bar">
         <span id="lightboxCaption">Screenshot View</span>
-        <button id="lightboxCloseBtn" class="lightbox-close-btn" aria-label="Close Preview">✕</button>
+        <button id="lightboxCloseBtn" class="lightbox-close-btn" aria-label="Close Preview">&#10005;</button>
       </div>
     </div>
   </div>
@@ -911,7 +1193,10 @@
       const nav = document.getElementById('mgrNav');
       const groups = nav ? Array.from(nav.querySelectorAll('.emn-group')) : [];
       const links = nav ? Array.from(nav.querySelectorAll('.emn-sub a')) : [];
-      const sections = ['mgr-dashboard', 'mgr-inbox', 'mgr-leave', 'mgr-travel', 'mgr-claims', 'mgr-org', 'mgr-settings'];
+      const sections = [
+        'mgr-getting-started', 'mgr-inbox', 'mgr-leave', 'mgr-travel',
+        'mgr-claims', 'mgr-org', 'mgr-docs', 'mgr-lifecycle'
+      ];
       const counterEl = document.getElementById('stepCounterText');
       const progressBar = document.getElementById('readingProgressBar');
 

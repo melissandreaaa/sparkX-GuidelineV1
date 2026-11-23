@@ -25,10 +25,6 @@
             <span data-i18n="guideBadge">HR Admin Onboarding Guide</span>
           </span>
         </a>
-        <button type="button" id="backToPortalBtn" class="back-portal-btn" style="display: none;" title="Return to Documentation Home">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
-          <span data-i18n="portalBackBtn">← Documentation Portal</span>
-        </button>
       </div>
 
       <div class="header-controls">
@@ -210,9 +206,7 @@
               In-depth administrative reference: Company legal profile management, corporate subsidiaries, salary grade tiers, approval routing templates, tax & statutory rules, and company policy governance.
             </p>
           </div>
-          <button type="button" class="portal-btn is-outline" data-portal-modal="manual-hr" data-i18n="portalBtnManual">
-            Open Manual Details →
-          </button>
+          <a href="hr-admin-manual.html" class="portal-btn is-primary" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 6px;">Open User Manual &rarr;</a>
         </div>
 
       </div>
@@ -236,11 +230,11 @@
     <!-- Left Sticky Sidebar Stepper -->
     <aside class="sidebar-sticky">
       <div class="stepper-card">
-                <a href="#portal" class="sidebar-portal-btn" id="sidebarBackPortal" title="Return to Documentation Home">
+                <a href="#portal" class="sidebar-portal-btn" id="sidebarBackPortal" title="Back to previous page">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
-          <span data-i18n="portalBackBtn">← Documentation Portal</span>
+          <span>Back</span>
         </a>
-        <div class="stepper-header">
+<div class="stepper-header">
           <div class="stepper-title" data-i18n="guideBadge">HR Admin Onboarding Guide</div>
           <button type="button" class="sidebar-collapse-toggle" id="sidebarCollapseToggle" aria-label="Collapse sidebar navigation" title="Collapse sidebar navigation">
             <svg class="sidebar-toggle-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
@@ -2371,11 +2365,11 @@
       <!-- Left Sticky Sidebar Stepper for Employee Guide -->
       <aside class="sidebar-sticky" id="sidebarStickyEmp">
         <div class="stepper-card">
-          <a href="#portal" class="sidebar-portal-btn" id="sidebarBackPortalEmp" title="Return to Documentation Home">
+                    <a href="#portal" class="sidebar-portal-btn" id="sidebarBackPortalEmp" title="Back to previous page">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
-            <span data-i18n="portalBackBtn">← Documentation Portal</span>
+            <span>Back</span>
           </a>
-          <div class="stepper-header">
+<div class="stepper-header">
             <div class="stepper-title" data-i18n="empGuideBadge">Invited Employee Guide</div>
             <button type="button" class="sidebar-collapse-toggle" id="sidebarCollapseToggleEmp" aria-label="Collapse sidebar navigation" title="Collapse sidebar navigation">
               <svg class="sidebar-toggle-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
@@ -2567,10 +2561,6 @@
 
           <!-- Section Nav Footer -->
           <div class="section-nav-footer">
-            <a href="#portal" class="btn-nav btn-nav-prev" id="empNavBackPortal">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
-              <span data-i18n="portalBackBtn">← Documentation Portal</span>
-            </a>
             <button type="button" class="btn-nav btn-nav-next" data-nav-target="emp-step-01">
               <span data-i18n="nextBtn">Next Step</span>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
@@ -2919,11 +2909,11 @@
       <!-- Left Sticky Sidebar Stepper for Employee Manual -->
       <aside class="sidebar-sticky" id="sidebarStickyEmpManual">
         <div class="stepper-card">
-          <a href="#portal" class="sidebar-portal-btn" id="sidebarBackPortalManual" title="Return to Documentation Home">
+                    <a href="#portal" class="sidebar-portal-btn" id="sidebarBackPortalManual" title="Back to previous page">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
-            <span>← Documentation Portal</span>
+            <span>Back</span>
           </a>
-          <div class="stepper-header">
+<div class="stepper-header">
             <div class="stepper-title">Employee User Manual</div>
             <button type="button" class="sidebar-collapse-toggle" id="sidebarCollapseToggleEmpManual" aria-label="Collapse sidebar navigation" title="Collapse sidebar navigation">
               <svg class="sidebar-toggle-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
@@ -5973,9 +5963,6 @@
             </table>
           </div>
         </section>
-        <div style="text-align: center; padding: 20px 0 60px 0;">
-          <a href="#portal" class="portal-btn is-outline" onclick="event.preventDefault(); if (window.backToPortal) window.backToPortal(); else location.hash = '#portal';" style="display: inline-flex; align-items: center; gap: 8px; font-weight: 700; text-decoration: none; padding: 12px 24px;">&larr; Back to Documentation Portal</a>
-        </div>
 
 
       </main>
