@@ -2928,9 +2928,13 @@
   #employeeManualView .layout-container {
     grid-template-columns: 340px minmax(0, 1fr);
     gap: 32px;
+    align-items: start;
   }
   #employeeManualView .sidebar-sticky {
-    max-height: calc(100vh - 84px);
+    position: sticky;
+    top: calc(var(--header-height, 64px) + 20px);
+    align-self: start;
+    max-height: calc(100vh - var(--header-height, 64px) - 36px);
     overflow-y: auto;
     overflow-x: hidden;
     padding-right: 4px;

@@ -1263,6 +1263,7 @@ function initEmpManualSidebar() {
     links.forEach(link => link.classList.toggle('is-active', link === active));
     const activeGroup = active && active.closest('.emn-group');
     if (activeGroup && !activeGroup.classList.contains('is-open')) setOpen(activeGroup, true);
+    if (typeof window.scrollSidebarToActive === 'function') window.scrollSidebarToActive(active);
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
@@ -1289,6 +1290,19 @@ const subnavElements = [
   { id: 'setup-step-7', selector: '.sidebar-sub-item[href="#setup-step-7"]' },
   { id: 'setup-step-8', selector: '.sidebar-sub-item[href="#setup-step-8"]' }
 ];
+
+let lastAutoScrolledSidebarEl = null;
+window.scrollSidebarToActive = function(activeEl) {
+  if (!activeEl || activeEl === lastAutoScrolledSidebarEl) return;
+  lastAutoScrolledSidebarEl = activeEl;
+  const sidebar = activeEl.closest('.sidebar-sticky');
+  if (!sidebar || sidebar.scrollHeight <= sidebar.clientHeight) return;
+  const sRect = sidebar.getBoundingClientRect();
+  const aRect = activeEl.getBoundingClientRect();
+  const offsetTop = aRect.top - sRect.top + sidebar.scrollTop;
+  const target = offsetTop - (sidebar.clientHeight / 2) + (aRect.height / 2);
+  sidebar.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
+};
 
 function initScrollSpy() {
   const progressBar = document.getElementById('readingProgressBar');
@@ -1328,6 +1342,7 @@ function initScrollSpy() {
       empManualNavItems.forEach((item, idx) => {
         if (idx === currentSectionIdx) {
           item.classList.add('active');
+          window.scrollSidebarToActive(item);
         } else {
           item.classList.remove('active');
         }
@@ -1364,6 +1379,7 @@ function initScrollSpy() {
       empNavItems.forEach((item, idx) => {
         if (idx === currentSectionIdx) {
           item.classList.add('active');
+          window.scrollSidebarToActive(item);
         } else {
           item.classList.remove('active');
         }
@@ -1399,6 +1415,9 @@ function initScrollSpy() {
     hrNavItems.forEach((item, idx) => {
       if (idx === currentSectionIdx) {
         item.classList.add('active');
+        if (mainSections[currentSectionIdx] !== 'section-05') {
+          window.scrollSidebarToActive(item);
+        }
       } else {
         item.classList.remove('active');
       }
@@ -1428,6 +1447,7 @@ function initScrollSpy() {
         if (linkEl) {
           if (item.id === activeSubId) {
             linkEl.classList.add('active');
+            window.scrollSidebarToActive(linkEl);
           } else {
             linkEl.classList.remove('active');
           }

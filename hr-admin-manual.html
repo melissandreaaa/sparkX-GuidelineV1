@@ -2016,6 +2016,18 @@
         'mgmt-master-data', 'mgmt-audit-trail'
       ];
       const counterEl = document.getElementById('stepCounterText');
+      let lastActiveLink = null;
+      function scrollSidebarToActive(activeEl) {
+        if (!activeEl || activeEl === lastActiveLink) return;
+        lastActiveLink = activeEl;
+        const sidebar = activeEl.closest('.sidebar-sticky');
+        if (!sidebar || sidebar.scrollHeight <= sidebar.clientHeight) return;
+        const sRect = sidebar.getBoundingClientRect();
+        const aRect = activeEl.getBoundingClientRect();
+        const offsetTop = aRect.top - sRect.top + sidebar.scrollTop;
+        const target = offsetTop - (sidebar.clientHeight / 2) + (aRect.height / 2);
+        sidebar.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
+      }
       const progressBar = document.getElementById('readingProgressBar');
 
       function setOpen(group, open) {
@@ -2083,6 +2095,7 @@
         links.forEach(link => link.classList.toggle('is-active', link === active));
         const activeGroup = active && active.closest('.emn-group');
         if (activeGroup && !activeGroup.classList.contains('is-open')) setOpen(activeGroup, true);
+        scrollSidebarToActive(active);
       }
 
       window.addEventListener('scroll', onScroll, { passive: true });
